@@ -121,16 +121,26 @@ public class Main {
             e.printStackTrace();
         }
 
-        JButton btnback = new JButton("Back");
-        btnback.setSize(100, 40);
-        btnback.setLocation(0, 0);
-        btnback.addActionListener(new ActionListener() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("<>"); // как-нибудь потом назовем это
+        JMenuItem menuback = new JMenuItem("Back to the main window");
+        JMenuItem menuexit = new JMenuItem("Exit the programm");
+        menuback.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 window.setVisible(false);
                 frame.setVisible(true);
             }
         });
-        window.add(btnback);
+        menuexit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        menu.add(menuback);
+        menu.add(menuexit);
+        menuBar.add(menu);
+        window.setJMenuBar(menuBar);
+
 
         JButton btntest = new JButton("Take test");
         btntest.setSize(300, 40);
