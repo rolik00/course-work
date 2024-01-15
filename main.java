@@ -101,6 +101,11 @@ public class Main {
         window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         window.getContentPane().setLayout(null);
 
+        String filepath;
+        if (title == "Basis") filepath = "D:\\java\\firstpr\\basis.txt";
+        else if (title == "Sorts") filepath = "D:\\java\\firstpr\\sorts.txt";
+        else filepath = "D:\\java\\firstpr\\hmm.txt";
+
         text = new JTextArea();
         text.setEditable(false);
         text.setLineWrap(true);
@@ -111,11 +116,10 @@ public class Main {
         window.getContentPane().add(scroll);
 
         try {
-            readFile("D:\\java\\firstpr\\basis.txt");
+            readFile(filepath);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         JButton btnback = new JButton("Back");
         btnback.setSize(100, 40);
