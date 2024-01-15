@@ -1,24 +1,22 @@
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 public class Main {
     private JFrame frame;
+    private JTextArea text;
     public Main() {
         frame = new JFrame("Menu");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        /*JButton ex = new JButton("Exit");
-        ex.setSize(100, 40);
-        ex.setLocation(50, 200);*/
-
         JButton btnbss = new JButton("Basis   >");
         btnbss.setSize(200, 40);
         btnbss.setLocation(50, 80);
         btnbss.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame bss = createWindow("Basis");
+                JFrame bss = create_theory_window("Basis");
                 frame.setVisible(false);
                 bss.setVisible(true);
             }
@@ -30,7 +28,7 @@ public class Main {
         btnstr.setLocation(50, 140);
         btnstr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame str = createWindow("Sorts");
+                JFrame str = create_theory_window("Sorts");
                 frame.setVisible(false);
                 str.setVisible(true);
             }
@@ -42,7 +40,7 @@ public class Main {
         btngrp.setLocation(50, 200);
         btngrp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame grp = createWindow("Graphs");
+                JFrame grp = create_theory_window("Graphs");
                 frame.setVisible(false);
                 grp.setVisible(true);
             }
@@ -54,7 +52,7 @@ public class Main {
         btndts.setLocation(50, 260);
         btndts.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame dts = createWindow("Data structures");
+                JFrame dts = create_theory_window("Data structures");
                 frame.setVisible(false);
                 dts.setVisible(true);
             }
@@ -66,7 +64,7 @@ public class Main {
         btnalg.setLocation(50, 320);
         btnalg.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame alg = createWindow("Algorithmic paradigms");
+                JFrame alg = create_theory_window("Algorithmic paradigms");
                 frame.setVisible(false);
                 alg.setVisible(true);
             }
@@ -78,34 +76,50 @@ public class Main {
         btntst.setLocation(50, 380);
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame tst = createWindow("Control test");
+                // здесь потом будет другая функция, так как это окно будет создавать как и другие тесты, а для них будет отдельная функция создания окна, и надо еще не забыть про счетчик баллов
+                JFrame tst = create_theory_window("Control test");
                 frame.setVisible(false);
                 tst.setVisible(true);
             }
         });
         frame.add(btntst);
 
-        /*ex.addActionListener(new ActionListener() {
+        JButton ex = new JButton("Exit");
+        ex.setSize(200, 40);
+        ex.setLocation(50, 440);
+        ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
-        });*/
-        //frame.add(ex);
+        });
+        frame.add(ex);
 
         frame.setVisible(true);
     }
-    private JFrame createWindow(String title) {
+    private JFrame create_theory_window(String title) {
         JFrame window = new JFrame(title);
         window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         window.getContentPane().setLayout(null);
 
-        JLabel text = new JLabel("you crossed to another window!");
-        text.setBounds(700, 400, 315, 14);
-        window.add(text);
+        text = new JTextArea();
+        text.setEditable(false);
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(text);
+        scroll.setSize(1200, 600);
+        scroll.setLocation(175, 75);
+        window.getContentPane().add(scroll);
+
+        try {
+            readFile("D:\\java\\firstpr\\basis.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         JButton btnback = new JButton("Back");
         btnback.setSize(100, 40);
-        btnback.setLocation(700, 675);
+        btnback.setLocation(0, 0);
         btnback.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 window.setVisible(false);
@@ -114,7 +128,31 @@ public class Main {
         });
         window.add(btnback);
 
+        JButton btntest = new JButton("Take test");
+        btntest.setSize(300, 40);
+        btntest.setLocation(625, 725);
+        //button processing
+        window.add(btntest);
+
         return window;
+    }
+
+    private void readFile(String filePath) throws IOException {
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                text.append(line + "\n");
+            }
+            text.setCaretPosition(0);
+        } finally
+        {
+            if (reader != null) {
+                reader.close();
+            }
+        }
     }
 
     public static void main(String[] args) {
