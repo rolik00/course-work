@@ -104,6 +104,9 @@ public class Main {
         String filepath;
         if (title == "Basis") filepath = "D:\\java\\firstpr\\basis.txt";
         else if (title == "Sorts") filepath = "D:\\java\\firstpr\\sorts.txt";
+        else if (title == "Graphs") filepath = "D:\\java\\firstpr\\graphs.txt";
+        else if (title == "Data structures") filepath = "D:\\java\\firstpr\\data structures.txt";
+        else if (title == "Algorithmic paradigms") filepath = "D:\\java\\firstpr\\algoritmic paradigms.txt";
         else filepath = "D:\\java\\firstpr\\hmm.txt";
 
         text = new JTextArea();
