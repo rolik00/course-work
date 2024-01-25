@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cbceef6-eaf5-4335-a286-cb2a40c6a960" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore.orig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/алгпарадигмы.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/.gitignore.orig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/course-work/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/course-work/Main$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/course-work/Main$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/course-work/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

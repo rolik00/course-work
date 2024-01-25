@@ -12,7 +12,7 @@ public class Main {
         ImageIcon s = new ImageIcon("сортировки.png");
         ImageIcon d = new ImageIcon("структурыданных.jpg");
         ImageIcon g = new ImageIcon("графы.jpg");
-        ImageIcon a = new ImageIcon("алгпарадигмы.jpg");
+        ImageIcon a = new ImageIcon("алгпарадигмы.png");
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
         int sizex = (int)(0.25*width);
@@ -176,14 +176,13 @@ public class Main {
         menuBar.add(menu);
         window.setJMenuBar(menuBar);
 
-
         JButton btntest = new JButton("Take test");
         btntest.setSize(300, 40);
         btntest.setLocation(625, 725);
         //button processing
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame test = create_test_window("Test");
+                JFrame test = create_test_window(title);
                 window.setVisible(false);
                 test.setVisible(true);
             }
@@ -204,7 +203,25 @@ public class Main {
         bar.setPreferredSize(new Dimension(100, 8));
         wtest.getContentPane().add(bar);*/
         //wtest.add(bar);
-
+        text = new JTextArea();
+        text.setEditable(false);
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(text);
+        scroll.setSize(1200, 300);
+        scroll.setLocation(175, 75);
+        wtest.getContentPane().add(scroll);
+        if (title == "Basis")
+            text.append("Задача коммивояжера является примером");
+        else if (title == "Sorts")
+            text.append("Задача коммивояжера является примером");
+        else if (title == "Graphs")
+            text.append("Задача коммивояжера является примером");
+        else if (title == "Data structures")
+            text.append("Задача коммивояжера является примером");
+        else if (title == "Algorithmic paradigms")
+            text.append("Задача коммивояжера является примером");
+        text.setCaretPosition(0);
         return wtest;
     }
 
