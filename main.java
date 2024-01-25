@@ -8,6 +8,11 @@ public class Main {
     private JTextArea text;
     public Main() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        ImageIcon o = new ImageIcon("основы.png");
+        ImageIcon s = new ImageIcon("сортировки.png");
+        ImageIcon d = new ImageIcon("структурыданных.jpg");
+        ImageIcon g = new ImageIcon("графы.jpg");
+        ImageIcon a = new ImageIcon("алгпарадигмы.jpg");
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
         int sizex = (int)(0.25*width);
@@ -23,7 +28,10 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JButton btnbss = new JButton("Basis   >");
+        JButton btnbss = new JButton(o);
+        btnbss.setText("Основы   >");
+        btnbss.setHorizontalTextPosition(JButton.CENTER);
+        btnbss.setVerticalTextPosition(JButton.CENTER);
         btnbss.setSize(sizex, sizey);
         btnbss.setLocation(locx1, locy1);
         btnbss.addActionListener(new ActionListener() {
@@ -35,7 +43,10 @@ public class Main {
         });
         frame.add(btnbss);
 
-        JButton btnstr = new JButton("Sorts   >");
+        JButton btnstr = new JButton(s);
+        btnstr.setText("Сортировки   >");
+        btnstr.setHorizontalTextPosition(JButton.CENTER);
+        btnstr.setVerticalTextPosition(JButton.CENTER);
         btnstr.setSize(sizex, sizey);
         btnstr.setLocation(locx2, locy1);
         btnstr.addActionListener(new ActionListener() {
@@ -48,7 +59,10 @@ public class Main {
         frame.add(btnstr);
 
 
-        JButton btndts = new JButton("Data structures   >");
+        JButton btndts = new JButton(d);
+        btndts.setText("Структуры данных   >");
+        btndts.setHorizontalTextPosition(JButton.CENTER);
+        btndts.setVerticalTextPosition(JButton.CENTER);
         btndts.setSize(sizex, sizey);
         btndts.setLocation(locx3, locy1);
         btndts.addActionListener(new ActionListener() {
@@ -60,7 +74,10 @@ public class Main {
         });
         frame.add(btndts);
 
-        JButton btngrp = new JButton("Graphs   >");
+        JButton btngrp = new JButton(g);
+        btngrp.setText("Графы   >");
+        btngrp.setHorizontalTextPosition(JButton.CENTER);
+        btngrp.setVerticalTextPosition(JButton.CENTER);
         btngrp.setSize(sizex, sizey);
         btngrp.setLocation(locx1, locy2);
         btngrp.addActionListener(new ActionListener() {
@@ -71,7 +88,10 @@ public class Main {
             }
         });
         frame.add(btngrp);
-        JButton btnalg = new JButton("Algorithmic paradigms   >");
+        JButton btnalg = new JButton(a);
+        btnalg.setText("Алгоритмические парадигмы   >");
+        btnalg.setHorizontalTextPosition(JButton.CENTER);
+        btnalg.setVerticalTextPosition(JButton.CENTER);
         btnalg.setSize(sizex, sizey);
         btnalg.setLocation(locx2, locy2);
         btnalg.addActionListener(new ActionListener() {
@@ -83,7 +103,7 @@ public class Main {
         });
         frame.add(btnalg);
 
-        JButton btntst = new JButton("Control test   >");
+        JButton btntst = new JButton("Контрольный тест   >");
         btntst.setSize(sizex, sizey);
         btntst.setLocation(locx3, locy2);
         btntst.addActionListener(new ActionListener() {
@@ -96,9 +116,9 @@ public class Main {
         });
         frame.add(btntst);
 
-        JButton ex = new JButton("Exit");
+        JButton ex = new JButton("Выход");
         ex.setSize(200, 40);
-        ex.setLocation(0, 0);
+        ex.setLocation((int)width-220, 20);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
