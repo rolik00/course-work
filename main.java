@@ -17,8 +17,6 @@ public class Main {
         int locx3=(int)(0.9375*width-sizex);
         int locy1=(int)(0.2*height);
         int locy2=(int)(sizey+locy1+0.5*(height-locy1-2*sizey));
-        System.out.println(locx1+" "+locx2+" "+locx3);
-        System.out.println(locy1+" "+locy2+' '+sizex+' '+sizey);
 
         frame = new JFrame("Menu");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
