@@ -6,6 +6,34 @@
   <component name="ChangeListManager">
     <list default="true" id="8cbceef6-eaf5-4335-a286-cb2a40c6a960" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/course-work.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/course-work/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/algoritmic paradigms.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/basis.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/course-work.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/data structures.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/graphs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/course-work/sorts.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +46,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2bRXBB6lXveoj4oSYjkLR9VPIuf" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -31,11 +59,26 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/makov/IdeaProjects/untitled"
+    "last_opened_file_path": "C:/Users/makov/IdeaProjects/course-work"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="course-work" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="course-work" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
