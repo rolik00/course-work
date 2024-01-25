@@ -1,19 +1,33 @@
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.awt.*;
 
 public class Main {
     private JFrame frame;
     private JTextArea text;
     public Main() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight()-50;
+        int sizex = (int)(0.25*width);
+        int sizey = (int)(0.34*height);
+        int locx1=(int)(0.0625*width);
+        int locx2=(int)(locx1+sizex+0.5*(width-2*locx1-3*sizex));
+        int locx3=(int)(0.9375*width-sizex);
+        int locy1=(int)(0.2*height);
+        int locy2=(int)(sizey+locy1+0.5*(height-locy1-2*sizey));
+        System.out.println(locx1+" "+locx2+" "+locx3);
+        System.out.println(locy1+" "+locy2+' '+sizex+' '+sizey);
+
         frame = new JFrame("Menu");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JButton btnbss = new JButton("Basis   >");
-        btnbss.setSize(200, 40);
-        btnbss.setLocation(50, 80);
+        btnbss.setSize(sizex, sizey);
+        btnbss.setLocation(locx1, locy1);
         btnbss.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame bss = create_theory_window("Basis");
@@ -24,8 +38,8 @@ public class Main {
         frame.add(btnbss);
 
         JButton btnstr = new JButton("Sorts   >");
-        btnstr.setSize(200, 40);
-        btnstr.setLocation(50, 140);
+        btnstr.setSize(sizex, sizey);
+        btnstr.setLocation(locx2, locy1);
         btnstr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame str = create_theory_window("Sorts");
@@ -35,21 +49,10 @@ public class Main {
         });
         frame.add(btnstr);
 
-        JButton btngrp = new JButton("Graphs   >");
-        btngrp.setSize(200, 40);
-        btngrp.setLocation(50, 200);
-        btngrp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame grp = create_theory_window("Graphs");
-                frame.setVisible(false);
-                grp.setVisible(true);
-            }
-        });
-        frame.add(btngrp);
 
         JButton btndts = new JButton("Data structures   >");
-        btndts.setSize(200, 40);
-        btndts.setLocation(50, 260);
+        btndts.setSize(sizex, sizey);
+        btndts.setLocation(locx3, locy1);
         btndts.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame dts = create_theory_window("Data structures");
@@ -59,9 +62,20 @@ public class Main {
         });
         frame.add(btndts);
 
+        JButton btngrp = new JButton("Graphs   >");
+        btngrp.setSize(sizex, sizey);
+        btngrp.setLocation(locx1, locy2);
+        btngrp.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame grp = create_theory_window("Graphs");
+                frame.setVisible(false);
+                grp.setVisible(true);
+            }
+        });
+        frame.add(btngrp);
         JButton btnalg = new JButton("Algorithmic paradigms   >");
-        btnalg.setSize(200, 40);
-        btnalg.setLocation(50, 320);
+        btnalg.setSize(sizex, sizey);
+        btnalg.setLocation(locx2, locy2);
         btnalg.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame alg = create_theory_window("Algorithmic paradigms");
@@ -72,8 +86,8 @@ public class Main {
         frame.add(btnalg);
 
         JButton btntst = new JButton("Control test   >");
-        btntst.setSize(200, 40);
-        btntst.setLocation(50, 380);
+        btntst.setSize(sizex, sizey);
+        btntst.setLocation(locx3, locy2);
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // здесь потом будет другая функция, так как это окно будет создавать как и другие тесты, а для них будет отдельная функция создания окна, и надо еще не забыть про счетчик баллов
@@ -86,7 +100,7 @@ public class Main {
 
         JButton ex = new JButton("Exit");
         ex.setSize(200, 40);
-        ex.setLocation(50, 440);
+        ex.setLocation(0, 0);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -102,12 +116,12 @@ public class Main {
         window.getContentPane().setLayout(null);
 
         String filepath;
-        if (title == "Basis") filepath = "D:\\java\\firstpr\\basis.txt";
-        else if (title == "Sorts") filepath = "D:\\java\\firstpr\\sorts.txt";
-        else if (title == "Graphs") filepath = "D:\\java\\firstpr\\graphs.txt";
-        else if (title == "Data structures") filepath = "D:\\java\\firstpr\\data structures.txt";
-        else if (title == "Algorithmic paradigms") filepath = "D:\\java\\firstpr\\algoritmic paradigms.txt";
-        else filepath = "D:\\java\\firstpr\\hmm.txt";
+        if (title == "Basis") filepath = "basis.txt";
+        else if (title == "Sorts") filepath = "sorts.txt";
+        else if (title == "Graphs") filepath = "graphs.txt";
+        else if (title == "Data structures") filepath = "data structures.txt";
+        else if (title == "Algorithmic paradigms") filepath = "algoritmic paradigms.txt";
+        else filepath = "hmm.txt";
 
         text = new JTextArea();
         text.setEditable(false);
@@ -149,9 +163,31 @@ public class Main {
         btntest.setSize(300, 40);
         btntest.setLocation(625, 725);
         //button processing
+        btntest.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame test = create_test_window("Test");
+                window.setVisible(false);
+                test.setVisible(true);
+            }
+        });
         window.add(btntest);
 
         return window;
+    }
+
+    private JFrame create_test_window(String title) {
+        JFrame wtest = new JFrame(title);
+        wtest.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        wtest.getContentPane().setLayout(null);
+        /*JProgressBar bar = new JProgressBar(JProgressBar.HORIZONTAL);
+        bar.setMinimum(0);
+        bar.setMaximum(100);
+        bar.setValue(50);
+        bar.setPreferredSize(new Dimension(100, 8));
+        wtest.getContentPane().add(bar);*/
+        //wtest.add(bar);
+
+        return wtest;
     }
 
     private void readFile(String filePath) throws IOException {
