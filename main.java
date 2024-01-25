@@ -8,11 +8,11 @@ public class Main {
     private JTextArea text;
     public Main() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        ImageIcon o = new ImageIcon("основы.png");
-        ImageIcon s = new ImageIcon("сортировки.png");
-        ImageIcon d = new ImageIcon("структурыданных.jpg");
-        ImageIcon g = new ImageIcon("графы.jpg");
-        ImageIcon a = new ImageIcon("алгпарадигмы.png");
+        ImageIcon o = new ImageIcon("images/основы.png");
+        ImageIcon s = new ImageIcon("images/сортировки.png");
+        ImageIcon d = new ImageIcon("images/структурыданных.jpg");
+        ImageIcon g = new ImageIcon("images/графы.jpg");
+        ImageIcon a = new ImageIcon("images/алгпарадигмы.png");
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
         int sizex = (int)(0.25*width);
@@ -134,11 +134,11 @@ public class Main {
         window.getContentPane().setLayout(null);
 
         String filepath;
-        if (title == "Basis") filepath = "basis.txt";
-        else if (title == "Sorts") filepath = "sorts.txt";
-        else if (title == "Graphs") filepath = "graphs.txt";
-        else if (title == "Data structures") filepath = "data structures.txt";
-        else if (title == "Algorithmic paradigms") filepath = "algoritmic paradigms.txt";
+        if (title == "Basis") filepath = "theories/basis.txt";
+        else if (title == "Sorts") filepath = "theories/sorts.txt";
+        else if (title == "Graphs") filepath = "theories/graphs.txt";
+        else if (title == "Data structures") filepath = "theories/data structures.txt";
+        else if (title == "Algorithmic paradigms") filepath = "theories/algoritmic paradigms.txt";
         else filepath = "hmm.txt";
 
         text = new JTextArea();
