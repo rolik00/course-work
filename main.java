@@ -1,18 +1,18 @@
-import java.awt.event.*;
-import javax.swing.*;
-import java.io.*;
 import java.awt.*;
+import java.awt.event.*;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.sql.*;
 
 public class Main {
     private JFrame frame;
     private JTextArea text;
+    private Integer btn_width = 200, btn_height = 270, x = 0, y = 0;
+
     public Main() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        ImageIcon o = new ImageIcon("images/основы.png");
-        ImageIcon s = new ImageIcon("images/сортировки.png");
-        ImageIcon d = new ImageIcon("images/структурыданных.jpg");
-        ImageIcon g = new ImageIcon("images/графы.jpg");
-        ImageIcon a = new ImageIcon("images/алгпарадигмы.png");
+        /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
         int sizex = (int)(0.25*width);
@@ -21,125 +21,60 @@ public class Main {
         int locx2=(int)(locx1+sizex+0.5*(width-2*locx1-3*sizex));
         int locx3=(int)(0.9375*width-sizex);
         int locy1=(int)(0.2*height);
-        int locy2=(int)(sizey+locy1+0.5*(height-locy1-2*sizey));
+        int locy2=(int)(sizey+locy1+0.5*(height-locy1-2*sizey));*/
 
-        frame = new JFrame("Menu");
+        frame = new JFrame("Меню");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        JButton btnbss = new JButton(o);
-        btnbss.setText("Основы   >");
-        btnbss.setHorizontalTextPosition(JButton.CENTER);
-        btnbss.setVerticalTextPosition(JButton.CENTER);
-        btnbss.setSize(sizex, sizey);
-        btnbss.setLocation(locx1, locy1);
-        btnbss.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame bss = create_theory_window("Basis");
-                frame.setVisible(false);
-                bss.setVisible(true);
-            }
-        });
+        ImageIcon tst = new ImageIcon("images/тест.png");
+
+        JButton btnbss = create_main_button("Basis");
         frame.add(btnbss);
 
-        JButton btnstr = new JButton(s);
-        btnstr.setText("Сортировки   >");
-        btnstr.setHorizontalTextPosition(JButton.CENTER);
-        btnstr.setVerticalTextPosition(JButton.CENTER);
-        btnstr.setSize(sizex, sizey);
-        btnstr.setLocation(locx2, locy1);
-        btnstr.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame str = create_theory_window("Sorts");
-                frame.setVisible(false);
-                str.setVisible(true);
-            }
-        });
+        JButton btnstr = create_main_button("Sorts");
         frame.add(btnstr);
 
+        JButton btngrp = create_main_button("Graphs");
+        frame.add(btngrp);
 
-        JButton btndts = new JButton(d);
-        btndts.setText("Структуры данных   >");
-        btndts.setHorizontalTextPosition(JButton.CENTER);
-        btndts.setVerticalTextPosition(JButton.CENTER);
-        btndts.setSize(sizex, sizey);
-        btndts.setLocation(locx3, locy1);
-        btndts.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame dts = create_theory_window("Data structures");
-                frame.setVisible(false);
-                dts.setVisible(true);
-            }
-        });
+        JButton btndts = create_main_button("Data structures");
         frame.add(btndts);
 
-        JButton btngrp = new JButton(g);
-        btngrp.setText("Графы   >");
-        btngrp.setHorizontalTextPosition(JButton.CENTER);
-        btngrp.setVerticalTextPosition(JButton.CENTER);
-        btngrp.setSize(sizex, sizey);
-        btngrp.setLocation(locx1, locy2);
-        btngrp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame grp = create_theory_window("Graphs");
-                frame.setVisible(false);
-                grp.setVisible(true);
-            }
-        });
-        frame.add(btngrp);
-        JButton btnalg = new JButton(a);
-        btnalg.setText("Алгоритмические парадигмы   >");
-        btnalg.setHorizontalTextPosition(JButton.CENTER);
-        btnalg.setVerticalTextPosition(JButton.CENTER);
-        btnalg.setSize(sizex, sizey);
-        btnalg.setLocation(locx2, locy2);
-        btnalg.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame alg = create_theory_window("Algorithmic paradigms");
-                frame.setVisible(false);
-                alg.setVisible(true);
-            }
-        });
+        JButton btnalg = create_main_button("Algorithmic paradigms");
         frame.add(btnalg);
 
-        JButton btntst = new JButton("Контрольный тест   >");
-        btntst.setSize(sizex, sizey);
-        btntst.setLocation(locx3, locy2);
+        JButton btntst = new JButton("Контрольный тест   >", tst);
+        btntst.setSize(200, 270);
+        btntst.setLocation(950, 375);
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // здесь потом будет другая функция, так как это окно будет создавать как и другие тесты, а для них будет отдельная функция создания окна, и надо еще не забыть про счетчик баллов
-                JFrame tst = create_theory_window("Control test");
+                JFrame tst = create_test_window("Control test");
                 frame.setVisible(false);
                 tst.setVisible(true);
             }
         });
         frame.add(btntst);
 
-        JButton ex = new JButton("Выход");
-        ex.setSize(200, 40);
-        ex.setLocation((int)width-220, 20);
-        ex.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        JButton ex = exit();
         frame.add(ex);
 
         frame.setVisible(true);
     }
+
     private JFrame create_theory_window(String title) {
         JFrame window = new JFrame(title);
         window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         window.getContentPane().setLayout(null);
 
         String filepath;
-        if (title == "Basis") filepath = "theories/basis.txt";
-        else if (title == "Sorts") filepath = "theories/sorts.txt";
-        else if (title == "Graphs") filepath = "theories/graphs.txt";
-        else if (title == "Data structures") filepath = "theories/data structures.txt";
-        else if (title == "Algorithmic paradigms") filepath = "theories/algoritmic paradigms.txt";
-        else filepath = "hmm.txt";
+        if (title == "Basis") filepath = "D:\\java\\firstpr\\theories\\basis.txt";
+        else if (title == "Sorts") filepath = "D:\\java\\firstpr\\theories\\sorts.txt";
+        else if (title == "Graphs") filepath = "D:\\java\\firstpr\\theories\\graphs.txt";
+        else if (title == "Data structures") filepath = "D:\\java\\firstpr\\theories\\data structures.txt";
+        else if (title == "Algorithmic paradigms") filepath = "D:\\java\\firstpr\\theories\\algoritmic paradigms.txt";
+        else filepath = "D:\\java\\firstpr\\theories\\hmm.txt";
 
         text = new JTextArea();
         text.setEditable(false);
@@ -158,8 +93,8 @@ public class Main {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("<>"); // как-нибудь потом назовем это
-        JMenuItem menuback = new JMenuItem("Back to the main window");
-        JMenuItem menuexit = new JMenuItem("Exit the programm");
+        JMenuItem menuback = new JMenuItem("Назад на главное окно");
+        JMenuItem menuexit = new JMenuItem("Выход из программы");
         menuback.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 window.setVisible(false);
@@ -176,10 +111,10 @@ public class Main {
         menuBar.add(menu);
         window.setJMenuBar(menuBar);
 
-        JButton btntest = new JButton("Take test");
+
+        JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
         btntest.setLocation(625, 725);
-        //button processing
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame test = create_test_window(title);
@@ -221,7 +156,20 @@ public class Main {
             text.append("Задача коммивояжера является примером");
         else if (title == "Algorithmic paradigms")
             text.append("Задача коммивояжера является примером");
+        else if (title == "Control test")
+            text.append("The control test will be here!");
         text.setCaretPosition(0);
+
+        JButton ex = new JButton("Выход");
+        ex.setSize(100, 40);
+        ex.setLocation(725, 725);
+        ex.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                wtest.setVisible(false);
+                frame.setVisible(true);
+            }
+        });
+        wtest.add(ex);
         return wtest;
     }
 
@@ -243,6 +191,87 @@ public class Main {
         }
     }
 
+    private JButton create_main_button(String title)
+    {
+        File file = null;
+        BufferedImage oImage = null;
+        if (title == "Basis")
+        {
+            file = new File("images/основы.png");
+            x = 350;
+            y = 80;
+        }
+        else if (title == "Sorts")
+        {
+            file = new File("images/сортировки.png");
+            x = 650;
+            y = 80;
+        }
+        else if (title == "Graphs")
+        {
+            file = new File ("images/графы.jpg");
+            x = 950;
+            y = 80;
+        }
+        else if (title == "Data structures")
+        {
+            file = new File ("images/структурыданных.jpg");
+            x = 350;
+            y = 375;
+        }
+        else if (title == "Algorithmic paradigms")
+        {
+            file = new File ("images/алгпарадигмы.png");
+            x = 650;
+            y = 375;
+        }
+        //else if (title == "Control test") file = new File ("images/тест.png");
+        try {
+            oImage = ImageIO.read(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        JButton button = new JButton(title);
+        button.setSize(btn_width, btn_height);
+        button.setLocation(x, y);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame bss = create_theory_window(title);
+                frame.setVisible(false);
+                bss.setVisible(true);
+            }
+        });
+        Image scaledImage = oImage.getScaledInstance(btn_width, btn_height - 25, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(scaledImage);
+        button.setIcon(imageIcon);
+        button.setVerticalTextPosition(SwingConstants.BOTTOM);
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        return button;
+    }
+    private JButton exit()
+    {
+        File file = new File("images/выход.png");
+        BufferedImage oImage = null;
+        try {
+            oImage = ImageIO.read(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        JButton ex = new JButton("Выход");
+        ex.setSize(100, 40);
+        ex.setLocation(725, 725);
+        ex.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        Image scaledImage = oImage.getScaledInstance(100, 15, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(scaledImage);
+        ex.setIcon(imageIcon);
+        ex.setVerticalTextPosition(SwingConstants.BOTTOM);
+        ex.setHorizontalTextPosition(SwingConstants.CENTER);
+        return ex;
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
