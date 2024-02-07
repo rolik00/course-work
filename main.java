@@ -9,26 +9,25 @@ import java.sql.*;
 public class Main {
     private JFrame frame;
     private JTextArea text;
-    private Integer btn_width = 200, btn_height = 270, x = 0, y = 0;
+    private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
 
     public Main() {
-        /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
-        int sizex = (int)(0.25*width);
-        int sizey = (int)(0.34*height);
-        int locx1=(int)(0.0625*width);
-        int locx2=(int)(locx1+sizex+0.5*(width-2*locx1-3*sizex));
-        int locx3=(int)(0.9375*width-sizex);
-        int locy1=(int)(0.2*height);
-        int locy2=(int)(sizey+locy1+0.5*(height-locy1-2*sizey));*/
+        btn_width = (int)(0.25*width);
+        btn_height = (int)(0.3*height);
+        locx1=(int)(0.0625*width);
+        locx2=(int)(locx1+btn_width+0.5*(width-2*locx1-3*btn_width));
+        locx3=(int)(0.9375*width-btn_width);
+        locy1=(int)(0.1*height);
+        locy2=(int)(btn_height+locy1+0.5*(height-locy1-2*btn_height));
 
         frame = new JFrame("Меню");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-
-        ImageIcon tst = new ImageIcon("images/тест.png");
 
         JButton btnbss = create_main_button("Basis");
         frame.add(btnbss);
@@ -45,9 +44,22 @@ public class Main {
         JButton btnalg = create_main_button("Algorithmic paradigms");
         frame.add(btnalg);
 
-        JButton btntst = new JButton("Контрольный тест   >", tst);
-        btntst.setSize(200, 270);
-        btntst.setLocation(950, 375);
+        // потом засунем в какую-нибудь функцию
+        JButton btntst = new JButton("Контрольный тест   >");
+        BufferedImage oImage = null;
+        File file = new File("images/тест.jpg");
+        try {
+            oImage = ImageIO.read(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Image scaledImage = oImage.getScaledInstance(btn_width, btn_height - 25, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(scaledImage);
+        btntst.setIcon(imageIcon);
+        btntst.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btntst.setHorizontalTextPosition(SwingConstants.CENTER);
+        btntst.setSize(btn_width, btn_height);
+        btntst.setLocation(locx3, locy2);
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame tst = create_test_window("Control test");
@@ -110,7 +122,6 @@ public class Main {
         menu.add(menuexit);
         menuBar.add(menu);
         window.setJMenuBar(menuBar);
-
 
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
@@ -195,36 +206,11 @@ public class Main {
     {
         File file = null;
         BufferedImage oImage = null;
-        if (title == "Basis")
-        {
-            file = new File("images/основы.png");
-            x = 350;
-            y = 80;
-        }
-        else if (title == "Sorts")
-        {
-            file = new File("images/сортировки.png");
-            x = 650;
-            y = 80;
-        }
-        else if (title == "Graphs")
-        {
-            file = new File ("images/графы.jpg");
-            x = 950;
-            y = 80;
-        }
-        else if (title == "Data structures")
-        {
-            file = new File ("images/структурыданных.jpg");
-            x = 350;
-            y = 375;
-        }
-        else if (title == "Algorithmic paradigms")
-        {
-            file = new File ("images/алгпарадигмы.png");
-            x = 650;
-            y = 375;
-        }
+        if (title == "Basis") file = new File("images/основы.png");
+        else if (title == "Sorts") file = new File("images/сортировки.png");
+        else if (title == "Graphs") file = new File ("images/графы.jpg");
+        else if (title == "Data structures") file = new File ("images/структурыданных.jpg");
+        else if (title == "Algorithmic paradigms") file = new File ("images/алгпарадигмы.png");
         //else if (title == "Control test") file = new File ("images/тест.png");
         try {
             oImage = ImageIO.read(file);
@@ -233,7 +219,11 @@ public class Main {
         }
         JButton button = new JButton(title);
         button.setSize(btn_width, btn_height);
-        button.setLocation(x, y);
+        if (title == "Basis") button.setLocation(locx1, locy1);
+        else if (title == "Sorts") button.setLocation(locx2, locy1);
+        else if (title == "Graphs") button.setLocation(locx3, locy1);
+        else if (title == "Data structures") button.setLocation(locx1, locy2);
+        else if (title == "Algorithmic paradigms") button.setLocation(locx2, locy2);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame bss = create_theory_window(title);
