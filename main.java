@@ -8,7 +8,7 @@ public class Main {
     private JTextArea text;
     public Main() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        ImageIcon o = new ImageIcon("images/основы.png");
+        ImageIcon o = new ImageIcon("images/основы.svg");g
         ImageIcon s = new ImageIcon("images/сортировки.png");
         ImageIcon d = new ImageIcon("images/структурыданных.jpg");
         ImageIcon g = new ImageIcon("images/графы.jpg");
@@ -17,6 +17,8 @@ public class Main {
         double height = screenSize.getHeight()-50;
         int sizex = (int)(0.25*width);
         int sizey = (int)(0.34*height);
+        System.out.println(sizex);
+        System.out.println(sizey);
         int locx1=(int)(0.0625*width);
         int locx2=(int)(locx1+sizex+0.5*(width-2*locx1-3*sizex));
         int locx3=(int)(0.9375*width-sizex);
