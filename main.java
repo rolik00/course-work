@@ -6,7 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Main {
 
@@ -159,23 +162,39 @@ public class Main {
         scroll.setSize(1200, 300);
         scroll.setLocation(175, 75);
         wtest.getContentPane().add(scroll);
-        if (title == "Basis")
-            text.append("Задача коммивояжера является примером");
-        else if (title == "Sorts")
-            text.append("Задача коммивояжера является примером");
-        else if (title == "Graphs")
-            text.append("Задача коммивояжера является примером");
-        else if (title == "Data structures")
-            text.append("Задача коммивояжера является примером");
-        else if (title == "Algorithmic paradigms")
-            text.append("Задача коммивояжера является примером");
-        else if (title == "Control test")
-            text.append("The control test will be here!");
+
+        try (Connection connection =
+                     DriverManager.getConnection("jdbc:mysql://localhost:3306/coursework", "root", "lupsup");
+             Statement statement = connection.createStatement()) {
+            ResultSet res= statement.executeQuery("SELECT question FROM quest" +
+                    " WHERE num = 1");
+            if(res.next()) {
+                text.append(res.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         text.setCaretPosition(0);
+
+        wtest.add(create_test_button(title, 1, 1));
+        wtest.add(create_test_button(title, 2, 1));
+        wtest.add(create_test_button(title, 3, 1));
+        wtest.add(create_test_button(title, 4, 1));
+
+        JButton next = new JButton("Далее");
+        next.setSize(100, 40);
+        next.setLocation(725, 725);
+        next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                wtest.setVisible(false);
+                frame.setVisible(true);
+            }
+        });
+        wtest.add(next);
 
         JButton ex = new JButton("Выход");
         ex.setSize(100, 40);
-        ex.setLocation(725, 725);
+        ex.setLocation(1400, 30);
         ex.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 wtest.setVisible(false);
@@ -188,12 +207,51 @@ public class Main {
 
     private void readFile() throws IOException {
         BufferedReader read = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
+                new InputStreamReader(url.openStream()));
         String line;
         while ((line = read.readLine()) != null)
             text.append(line + "\n");
         read.close();
         text.setCaretPosition(0);
+    }
+
+    private JButton create_test_button(String title, int numb, int num_test){
+
+        String btext="";
+        try (Connection connection =
+                     DriverManager.getConnection("jdbc:mysql://localhost:3306/coursework", "root", "lupsup");
+             Statement statement = connection.createStatement()) {
+            ResultSet res= statement.executeQuery("SELECT option"+numb+ " FROM quest" +
+                    " WHERE num = 1");
+            if(res.next()) {
+                btext = res.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        JButton button = new JButton(btext);
+        button.setSize(590, 120);
+        if (numb == 1) button.setLocation(175, 400);
+        else if (numb == 2) button.setLocation(785, 400);
+        else if (numb == 3) button.setLocation(175, 550);
+        else if (numb == 4) button.setLocation(785, 550);
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame bss = null;
+                try {
+                    bss = create_test_window(title);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                frame.setVisible(false);
+                bss.setVisible(true);
+            }
+        });
+        button.setVerticalTextPosition(SwingConstants.CENTER);
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        return button;
     }
 
     private JButton create_main_button(String title)
@@ -239,7 +297,7 @@ public class Main {
     }
     private JButton exit()
     {
-        File file = new File("images/выход.png");
+        File file = new File("images/выход.jpg");
         BufferedImage oImage = null;
         try {
             oImage = ImageIO.read(file);
