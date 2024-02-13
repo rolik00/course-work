@@ -4,11 +4,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 
 public class Main {
+
     private JFrame frame;
     private JTextArea text;
+    private URL url;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
 
     public Main() {
@@ -75,18 +79,17 @@ public class Main {
         frame.setVisible(true);
     }
 
-    private JFrame create_theory_window(String title) {
+    private JFrame create_theory_window(String title) throws MalformedURLException {
         JFrame window = new JFrame(title);
         window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         window.getContentPane().setLayout(null);
 
         String filepath;
-        if (title == "Basis") filepath = "D:\\java\\firstpr\\theories\\basis.txt";
-        else if (title == "Sorts") filepath = "D:\\java\\firstpr\\theories\\sorts.txt";
-        else if (title == "Graphs") filepath = "D:\\java\\firstpr\\theories\\graphs.txt";
-        else if (title == "Data structures") filepath = "D:\\java\\firstpr\\theories\\data structures.txt";
-        else if (title == "Algorithmic paradigms") filepath = "D:\\java\\firstpr\\theories\\algoritmic paradigms.txt";
-        else filepath = "D:\\java\\firstpr\\theories\\hmm.txt";
+        if (title == "Basis") url = new URL("https://raw.githubusercontent.com/rolik00/course-work/main/theories/basis.txt");
+        else if (title == "Sorts") url = new URL("https://raw.githubusercontent.com/rolik00/course-work/main/theories/sorts.txt");
+        else if (title == "Graphs") url = new URL("https://raw.githubusercontent.com/rolik00/course-work/main/theories/graphs.txt");
+        else if (title == "Data structures") url = new URL("https://raw.githubusercontent.com/rolik00/course-work/main/theories/data%20structures.txt");
+        else if (title == "Algorithmic paradigms") url = new URL("https://raw.githubusercontent.com/rolik00/course-work/main/theories/algoritmic%20paradigms.txt");
 
         text = new JTextArea();
         text.setEditable(false);
@@ -98,10 +101,8 @@ public class Main {
         window.getContentPane().add(scroll);
 
         try {
-            readFile(filepath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            readFile();
+        } catch (IOException e) {}
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("<>"); // как-нибудь потом назовем это
@@ -122,6 +123,7 @@ public class Main {
         menu.add(menuexit);
         menuBar.add(menu);
         window.setJMenuBar(menuBar);
+
 
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
@@ -184,22 +186,14 @@ public class Main {
         return wtest;
     }
 
-    private void readFile(String filePath) throws IOException {
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader(new FileReader(filePath));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                text.append(line + "\n");
-            }
-            text.setCaretPosition(0);
-        } finally
-        {
-            if (reader != null) {
-                reader.close();
-            }
-        }
+    private void readFile() throws IOException {
+        BufferedReader read = new BufferedReader(
+                    new InputStreamReader(url.openStream()));
+        String line;
+        while ((line = read.readLine()) != null)
+            text.append(line + "\n");
+        read.close();
+        text.setCaretPosition(0);
     }
 
     private JButton create_main_button(String title)
@@ -226,7 +220,12 @@ public class Main {
         else if (title == "Algorithmic paradigms") button.setLocation(locx2, locy2);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame bss = create_theory_window(title);
+                JFrame bss = null;
+                try {
+                    bss = create_theory_window(title);
+                } catch (MalformedURLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 frame.setVisible(false);
                 bss.setVisible(true);
             }
