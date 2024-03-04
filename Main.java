@@ -42,11 +42,11 @@ public class Main {
         JButton btnstr = create_main_button("Sorts");
         frame.add(btnstr);
 
-        JButton btngrp = create_main_button("Graphs");
-        frame.add(btngrp);
-
         JButton btndts = create_main_button("Data structures");
         frame.add(btndts);
+
+        JButton btngrp = create_main_button("Graphs");
+        frame.add(btngrp);
 
         JButton btnalg = create_main_button("Algorithmic paradigms");
         frame.add(btnalg);
@@ -54,7 +54,7 @@ public class Main {
         // потом засунем в какую-нибудь функцию
         JButton btntst = new JButton("Контрольный тест   >");
         BufferedImage oImage = null;
-        File file = new File("images/тест.jpg");
+        File file = new File("images/тест.png");
         try {
             oImage = ImageIO.read(file);
         } catch (IOException ex) {
@@ -260,8 +260,8 @@ public class Main {
         BufferedImage oImage = null;
         if (title == "Basis") file = new File("images/основы.png");
         else if (title == "Sorts") file = new File("images/сортировки.png");
-        else if (title == "Graphs") file = new File ("images/графы.jpg");
-        else if (title == "Data structures") file = new File ("images/структурыданных.jpg");
+        else if (title == "Graphs") file = new File ("images/графы.png");
+        else if (title == "Data structures") file = new File ("images/структурыданных.png");
         else if (title == "Algorithmic paradigms") file = new File ("images/алгпарадигмы.png");
         //else if (title == "Control test") file = new File ("images/тест.png");
         try {
@@ -273,8 +273,8 @@ public class Main {
         button.setSize(btn_width, btn_height);
         if (title == "Basis") button.setLocation(locx1, locy1);
         else if (title == "Sorts") button.setLocation(locx2, locy1);
-        else if (title == "Graphs") button.setLocation(locx3, locy1);
-        else if (title == "Data structures") button.setLocation(locx1, locy2);
+        else if (title == "Data structures") button.setLocation(locx3, locy1);
+        else if (title == "Graphs") button.setLocation(locx1, locy2);
         else if (title == "Algorithmic paradigms") button.setLocation(locx2, locy2);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
