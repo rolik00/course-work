@@ -62,9 +62,8 @@ public class TheoryWindow {
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow w = new TestWindow();
-                JFrame test = w.create_test_window(title,frame);
+                w.create_test_window(title,frame);
                 window.setVisible(false);
-                test.setVisible(true);
             }
         });
         window.add(btntest);

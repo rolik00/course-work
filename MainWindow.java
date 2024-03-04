@@ -64,9 +64,7 @@ public class MainWindow {
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow w = new TestWindow();
-                JFrame tst = w.create_test_window("Control test",frame);
-                frame.setVisible(false);
-                tst.setVisible(true);
+                w.create_test_window("Control test",frame);
             }
         });
         frame.add(btntst);
