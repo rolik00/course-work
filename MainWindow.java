@@ -6,14 +6,15 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
+    private Color lightBlue= new Color(219,232,255);
+    public enum Topic {Basis, Sorts, Graphs, Data_structures, Algorithmic_paradigms}
 
-    public MainWindow() {
-
+    public MainWindow()
+    {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
@@ -29,26 +30,27 @@ public class MainWindow {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+        frame.getContentPane().setBackground(lightBlue);
 
-        JButton btnbss = create_main_button("Basis");
+        JButton btnbss = create_main_button(Topic.Basis);
         frame.add(btnbss);
 
-        JButton btnstr = create_main_button("Sorts");
+        JButton btnstr = create_main_button(Topic.Sorts);
         frame.add(btnstr);
 
-        JButton btndts = create_main_button("Data structures");
-        frame.add(btndts);
-
-        JButton btngrp = create_main_button("Graphs");
+        JButton btngrp = create_main_button(Topic.Graphs);
         frame.add(btngrp);
 
-        JButton btnalg = create_main_button("Algorithmic paradigms");
+        JButton btndts = create_main_button(Topic.Data_structures);
+        frame.add(btndts);
+
+        JButton btnalg = create_main_button(Topic.Algorithmic_paradigms);
         frame.add(btnalg);
 
         // потом засунем в какую-нибудь функцию
-        JButton btntst = new JButton("Контрольный тест   >");
+        JButton btntst = new JButton("Контрольный тест");
         BufferedImage oImage = null;
-        File file = new File("images/тест.png");
+        File file = new File("images/тест.jpg");
         try {
             oImage = ImageIO.read(file);
         } catch (IOException ex) {
@@ -63,49 +65,82 @@ public class MainWindow {
         btntst.setLocation(locx3, locy2);
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                TestWindow w = new TestWindow();
-                w.create_test_window("Control test",frame);
+                TestWindow tw = new TestWindow();
+                JFrame tst = tw.create_test_window(frame);
+                frame.setVisible(false);
+                tst.setVisible(true);
             }
         });
         frame.add(btntst);
 
-        JButton ex = exit();
-        frame.add(ex);
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("≡");
+        menu.setFont(new Font("Verdana", Font.PLAIN, 16));
+        JMenuItem menustatistic = new JMenuItem("Посмотреть статистику");
+        menustatistic.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StatisticsWindow sw = new StatisticsWindow();
+                frame.setVisible(false);
+                JFrame statistic = sw.create_statistic_window(frame);
+                statistic.setVisible(true);
+            }
+        });
+        JMenuItem menuexit = new JMenuItem("Выход");
+        menuexit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        menu.setBackground(lightBlue);
+        menu.add(menustatistic);
+        menu.add(menuexit);
+        menuBar.add(menu);
+        frame.setJMenuBar(menuBar);
 
         frame.setVisible(true);
     }
 
-    private JButton create_main_button(String title)
+    private JButton create_main_button(Topic topic)
     {
         File file = null;
+        String button_name = "";
         BufferedImage oImage = null;
-        if (title == "Basis") file = new File("images/основы.png");
-        else if (title == "Sorts") file = new File("images/сортировки.png");
-        else if (title == "Graphs") file = new File ("images/графы.png");
-        else if (title == "Data structures") file = new File ("images/структурыданных.jpg");
-        else if (title == "Algorithmic paradigms") file = new File ("images/алгпарадигмы.png");
-        //else if (title == "Control test") file = new File ("images/тест.png");
+        if (topic == Topic.Basis) {
+            file = new File("images/основы.png");
+            button_name = "Основы";
+        }
+        else if (topic == Topic.Sorts) {
+            file = new File("images/сортировки.png");
+            button_name = "Сортировки";
+        }
+        else if (topic == Topic.Graphs) {
+            file = new File ("images/графы.jpg");
+            button_name = "Графы";
+        }
+        else if (topic == Topic.Data_structures) {
+            file = new File ("images/структурыданных.jpg");
+            button_name = "Структуры данных";
+        }
+        else if (topic == Topic.Algorithmic_paradigms) {
+            file = new File ("images/алгпарадигмы.png");
+            button_name = "Алгоритмические парадигмы";
+        }
         try {
             oImage = ImageIO.read(file);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        JButton button = new JButton(title);
+        JButton button = new JButton(button_name);
         button.setSize(btn_width, btn_height);
-        if (title == "Basis") button.setLocation(locx1, locy1);
-        else if (title == "Sorts") button.setLocation(locx2, locy1);
-        else if (title == "Data structures") button.setLocation(locx3, locy1);
-        else if (title == "Graphs") button.setLocation(locx1, locy2);
-        else if (title == "Algorithmic paradigms") button.setLocation(locx2, locy2);
+        if (topic == Topic.Basis) button.setLocation(locx1, locy1);
+        else if (topic == Topic.Sorts) button.setLocation(locx2, locy1);
+        else if (topic == Topic.Graphs) button.setLocation(locx3, locy1);
+        else if (topic == Topic.Data_structures) button.setLocation(locx1, locy2);
+        else if (topic == Topic.Algorithmic_paradigms) button.setLocation(locx2, locy2);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame bss = null;
-                try {
-                    TheoryWindow bss_window = new TheoryWindow();
-                    bss = bss_window.create_theory_window(title,frame);
-                } catch (MalformedURLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                TheoryWindow thw = new TheoryWindow();
+                JFrame bss = thw.create_theory_window(topic, frame);
                 frame.setVisible(false);
                 bss.setVisible(true);
             }
@@ -116,29 +151,5 @@ public class MainWindow {
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
-    }
-    private JButton exit()
-    {
-        File file = new File("images/выход.jpg");
-        BufferedImage oImage = null;
-        try {
-            oImage = ImageIO.read(file);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        JButton ex = new JButton("Выход");
-        ex.setSize(100, 40);
-        ex.setLocation(725, 725);
-        ex.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        Image scaledImage = oImage.getScaledInstance(100, 15, Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(scaledImage);
-        ex.setIcon(imageIcon);
-        ex.setVerticalTextPosition(SwingConstants.BOTTOM);
-        ex.setHorizontalTextPosition(SwingConstants.CENTER);
-        return ex;
     }
 }
