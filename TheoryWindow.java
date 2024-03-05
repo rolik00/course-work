@@ -1,48 +1,53 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class TheoryWindow {
-    public JFrame create_theory_window(String title, JFrame frame) throws MalformedURLException {
-        JFrame window = new JFrame(title);
-        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        window.getContentPane().setLayout(null);
+    private JFrame frame;
+    private JTextArea text;
+    private Color lightBlue= new Color(219,232,255);
 
-        String filepath;
-        if (title == "Basis") filepath = "theories\\basis.txt";
-        else if (title == "Sorts") filepath = "theories\\sorts.txt";
-        else if (title == "Graphs") filepath = "theories\\graphs.txt";
-        else if (title == "Data structures") filepath = "theories\\data structures.txt";
-        else if (title == "Algorithmic paradigms") filepath = "theories\\algoritmic paradigms.txt";
-        else filepath = "D:\\java\\firstpr\\theories\\hmm.txt";
+    public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) {
+        frame = new JFrame(String.valueOf(topic));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.getContentPane().setLayout(null);
+        frame.getContentPane().setBackground(lightBlue);
 
-        JTextArea text = new JTextArea();
+        String filepath = "";
+        if (topic == MainWindow.Topic.Basis) filepath = "theories//basis.txt";
+        else if (topic == MainWindow.Topic.Sorts) filepath = "theories//sorts.txt";
+        else if (topic == MainWindow.Topic.Graphs) filepath = "theories//graphs.txt";
+        else if (topic == MainWindow.Topic.Data_structures) filepath = "theories//data structures.txt";
+        else if (topic == MainWindow.Topic.Algorithmic_paradigms) filepath = "theories//algoritmic paradigms.txt";
+
+        text = new JTextArea();
         text.setEditable(false);
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
+        Font font = new Font("Verdana", Font.PLAIN, 14);
+        text.setFont(font);
         JScrollPane scroll = new JScrollPane(text);
-        scroll.setSize(1200, 600);
-        scroll.setLocation(175, 75);
-        window.getContentPane().add(scroll);
+        scroll.setSize(1300, 600);
+        scroll.setLocation(125, 75);
+        frame.getContentPane().add(scroll);
 
         try {
-            readFile(filepath,text);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            readFile(filepath);
+        } catch (IOException e) {}
 
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("<>"); // как-нибудь потом назовем это
+        JMenu menu = new JMenu("≡");
+        menu.setFont(new Font("Verdana", Font.PLAIN, 16));
         JMenuItem menuback = new JMenuItem("Назад на главное окно");
         JMenuItem menuexit = new JMenuItem("Выход из программы");
         menuback.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                window.setVisible(false);
-                frame.setVisible(true);
+                frame.setVisible(false);
+                other.setVisible(true);
             }
         });
         menuexit.addActionListener(new ActionListener() {
@@ -53,35 +58,44 @@ public class TheoryWindow {
         menu.add(menuback);
         menu.add(menuexit);
         menuBar.add(menu);
-        window.setJMenuBar(menuBar);
+        frame.setJMenuBar(menuBar);
 
 
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
-        btntest.setLocation(625, 725);
+        btntest.setLocation(625, 715);
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                TestWindow w = new TestWindow();
-                w.create_test_window(title,frame);
-                window.setVisible(false);
+                TestWindow tw = new TestWindow();
+                JFrame test = tw.create_test_window(frame);
+                frame.setVisible(false);
+                test.setVisible(true);
             }
         });
-        window.add(btntest);
+        frame.add(btntest);
 
-        return window;
+        return frame;
     }
 
-
-    private void readFile(String filePath, JTextArea text) throws IOException {
+    private void readFile(String filepath) throws IOException {
+        /*BufferedReader read = new BufferedReader(
+                    new InputStreamReader(url.openStream()));
+        String line;
+        while ((line = read.readLine()) != null)
+            text.append(line + "\n");
+        read.close();
+        text.setCaretPosition(0);*/
         BufferedReader reader = null;
+
         try {
-            reader = new BufferedReader(new FileReader(filePath));
+            reader = new BufferedReader(new FileReader(filepath));
             String line;
             while ((line = reader.readLine()) != null) {
                 text.append(line + "\n");
             }
             text.setCaretPosition(0);
-        } finally {
+        } finally
+        {
             if (reader != null) {
                 reader.close();
             }
