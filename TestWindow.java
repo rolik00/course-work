@@ -118,3 +118,37 @@ public class TestWindow {
         return button;
     }
 }
+
+
+/*
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+
+public class TestWindow {
+    private JFrame frame;
+    private JTextArea text;
+    private Color lightBlue= new Color(219,232,255);
+
+    public JFrame create_test_window(JFrame other) {
+        frame = new JFrame("TECT");
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.getContentPane().setLayout(null);
+        frame.getContentPane().setBackground(lightBlue);
+        
+        JButton ex = new JButton("Выход");
+        ex.setSize(100, 40);
+        ex.setLocation(725, 725);
+        ex.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                other.setVisible(true);
+            }
+        });
+        frame.add(ex);
+        return frame;
+    }
+}
+*/
