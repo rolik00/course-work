@@ -10,10 +10,10 @@ import java.io.IOException;
 public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
-    private Color lightBlue= new Color(219,232,255);
-    public enum Topic {Basis, Sorts, Graphs, Data_structures, Algorithmic_paradigms}
+    private static Color lightBlue= new Color(219,232,255);
+    public enum Topic {Basis, Sorts, Graphs, Data_structures, Algorithmic_paradigms, Control_Test}
 
-    public MainWindow()
+    public JFrame create_main_window()
     {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -66,7 +66,7 @@ public class MainWindow {
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame tst = tw.create_test_window(frame);
+                JFrame tst = tw.create_test_window(frame, Topic.Control_Test);
                 frame.setVisible(false);
                 tst.setVisible(true);
             }
@@ -97,7 +97,7 @@ public class MainWindow {
         menuBar.add(menu);
         frame.setJMenuBar(menuBar);
 
-        frame.setVisible(true);
+        return frame;
     }
 
     private JButton create_main_button(Topic topic)
