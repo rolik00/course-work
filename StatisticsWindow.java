@@ -9,11 +9,12 @@ import java.io.IOException;
 
 public class StatisticsWindow {
     private JFrame frame;
-    private Color lightBlue= new Color(219,232,255);
-    private String[] CategoryNames = {"Основы", "Сортировки", "Графы", "Структуры данных", "Алгоритмические парадигмы", "Контрольный тест", ""};
+    private static Color lightBlue= new Color(219,232,255);
+
+    private static String[] CategoryNames = {"Основы", "Сортировки", "Графы", "Структуры данных", "Алгоритмические парадигмы", "Контрольный тест", ""};
     private int[] CategoryScores = {75, 60, 90, 80, 70, 85, -1};
-  
     public JFrame create_statistic_window(JFrame other) {
+
         frame = new JFrame();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
