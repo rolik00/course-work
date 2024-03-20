@@ -9,7 +9,7 @@ import java.io.IOException;
 public class TheoryWindow {
     private JFrame frame;
     private JTextArea text;
-    private Color lightBlue= new Color(219,232,255);
+    private static Color lightBlue= new Color(219,232,255);
 
     public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) {
         frame = new JFrame(String.valueOf(topic));
@@ -67,7 +67,7 @@ public class TheoryWindow {
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame test = tw.create_test_window(frame);
+                JFrame test = tw.create_test_window(frame, topic);
                 frame.setVisible(false);
                 test.setVisible(true);
             }
@@ -78,13 +78,6 @@ public class TheoryWindow {
     }
 
     private void readFile(String filepath) throws IOException {
-        /*BufferedReader read = new BufferedReader(
-                    new InputStreamReader(url.openStream()));
-        String line;
-        while ((line = read.readLine()) != null)
-            text.append(line + "\n");
-        read.close();
-        text.setCaretPosition(0);*/
         BufferedReader reader = null;
 
         try {
