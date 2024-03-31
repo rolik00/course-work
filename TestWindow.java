@@ -8,18 +8,15 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class TestWindow  {
 
-    private int currentQuestion = 0;
+    private int currentQuestion = 1;
     private static int countQuestions = 10;
-    private static String[] questions = {"Введите номер текущего вопроса ", "Введите номер текущего вопроса ", "Столица Франции",
-            "Положи ___ в корзину", "Сопоставьте названия алгоритмов сортировки с средним временем их работы.", "Какие из перечисленных ниже цветов являются основными?",
-            "Введите номер текущего вопроса ", "На обед моя мама обычно готовит ___ ", "Кто написал роман 'Ромео и Джульетта'?",
-            "Сопоставьте термины, связанные с такими структурами данных, как дерево и куча, с их определениями."};
     private static String task1 = ": Ответьте на вопрос.", task2 =": Выберите из предложенного списка слова и вствавьте их в текст на места пропусков.",
             extra_task2 = "Список слов:", task3 = ": Выберите все правильные ответы (количество правильных ответов может быть от 1 до 4).",
-            task4 = ": Установите соответсвие.";
+            task4 = ": Установите соответствие.";
     private String[][] answers = {{""}, {""}, {"Лондон", "Париж", "Берлин", "Москва"},
             {"книгу", "игрушку", "туфли", "яблоко"}, {"", "O(n^2)", "O(n log(n))"}, {"Синий", "Желтый", "Зеленый", "Красный"},
             {""}, {"салат", "пиццу", "пасту", "суп"}, {"Шекспир", "Моем", "Байрон", "Твен"}, {"", "узел, не имеющий дочерних элементов", "начальная вершина, от которой следуют все остальные", "вершина, расположенная на пути от данной вершины до корня",
@@ -30,7 +27,6 @@ public class TestWindow  {
             {""}, {""}, {""}, {""}, {"Предок", "Корень", "Узел", "Лист"}};
     private static String [] right_answers = {"1", "2", "1", "яблоко", "12112", "013", "7", "суп", "0", "3241"};
     private String[] user_answers = {"", "", "", "", "", "", "", "", "", ""};
-    private static int[] Type = {1, 1, 3, 2, 4, 3, 1, 2, 3, 4};
     private JButton nextButton, prevButton, resButton, exitButton;
     private JLabel question, question_2;
     private JTextField answerField;
@@ -44,10 +40,9 @@ public class TestWindow  {
     private static Color lightBlue= new Color(219,232,255);
     private static Font font = new Font("Verdana", Font.PLAIN, 14);
 
-    public JFrame create_test_window(JFrame other, MainWindow.Topic topic) {
+    public JFrame create_test_window(JFrame other, int theme) {
         frame = new JFrame("TECT");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         frame.getContentPane().setBackground(lightBlue);
 
@@ -93,16 +88,18 @@ public class TestWindow  {
             frame.add(comboBoxes[i]);
         }
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++){
             answersCheckboxes[i] = new JCheckBox("");
             frame.add(answersCheckboxes[i]);
         }
 
-        if (Type[currentQuestion] == 1) openQuestion();
-        else if (Type[currentQuestion] == 2) skipwordQuestion();
-        else if (Type[currentQuestion] == 3) testQuestion();
-        else if (Type[currentQuestion] == 4) matchQuestion();
+        Connection con = new Connection();
+        int curType = con.getType(theme,currentQuestion);
+        System.out.println(curType);
+        if (curType== 1 || curType == 2) testQuestion(theme);
+        else if (curType == 3) openQuestion(theme);
+        else if (curType == 4) skipwordQuestion(theme);
+        else if (curType == 5) matchQuestion(theme);
 
         nextButton = new JButton("Вперед");
         prevButton = new JButton("Назад");
@@ -125,22 +122,23 @@ public class TestWindow  {
         frame.add(resButton);
         nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                get_answer();
+                get_answer(curType, theme);
                 clear();
                 if (currentQuestion < 9) {
                     currentQuestion++;
+                    int curType = con.getType(theme,currentQuestion);
                     task.setText("Вопрос " + (currentQuestion + 1));
-                    if (Type[currentQuestion] == 1) openQuestion();
-                    else if (Type[currentQuestion] == 2) skipwordQuestion();
-                    else if (Type[currentQuestion] == 3) testQuestion();
-                    else if (Type[currentQuestion] == 4) matchQuestion();
+                    if (curType == 1 || curType == 2) testQuestion(theme);
+                    else if (curType == 3) openQuestion(theme);
+                    else if (curType == 4) skipwordQuestion(theme);
+                    else if (curType == 5) matchQuestion(theme);
                     if (currentQuestion == 9) {
                         nextButton.setVisible(false);
                         resButton.setVisible(true);
                         exitButton.setVisible(true);
                         resButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                get_answer();
+                                get_answer(curType, theme);
                                 String result = get_result();
                                 JOptionPane.showMessageDialog(null, result);
                             }
@@ -160,7 +158,7 @@ public class TestWindow  {
                         resButton.setVisible(false);
                         exitButton.setVisible(false);
                     }
-                    progressBar.setValue(currentQuestion + 1);
+                    progressBar.setValue(currentQuestion);
                 }
             }
         });
@@ -169,11 +167,12 @@ public class TestWindow  {
             public void actionPerformed(ActionEvent e) {
                 if (currentQuestion > 0) {
                     currentQuestion--;
+                    int curType = con.getType(theme,currentQuestion);
                     task.setText("Вопрос " + (currentQuestion + 1));
-                    if (Type[currentQuestion] == 1) openQuestion();
-                    else if (Type[currentQuestion] == 2) skipwordQuestion();
-                    else if (Type[currentQuestion] == 3) testQuestion();
-                    else if (Type[currentQuestion] == 4) matchQuestion();
+                    if (curType == 1 || curType== 2) testQuestion(theme);
+                    else if (curType== 3) openQuestion(theme);
+                    else if (curType == 4) skipwordQuestion(theme);
+                    else if (curType == 5) matchQuestion(theme);
                     if (currentQuestion != 9)
                     {
                         nextButton.setVisible(true);
@@ -195,13 +194,13 @@ public class TestWindow  {
         return frame;
     }
 
-    private void openQuestion()
-    {
+    private void openQuestion(int theme){
         clear();
         task.append(task1);
         task.setLocation(600, 200);
         task.setSize(700, 80);
-        question.setText(questions[currentQuestion]);
+        Connection con = new Connection();
+        question.setText(con.getQuestion(theme,currentQuestion));
         question.setLocation(600, 300);
         question.setSize(500, 40);
         answerField.setText(user_answers[currentQuestion]);
@@ -226,7 +225,7 @@ public class TestWindow  {
             answersCheckboxes[i].setLocation(30, 30 + 5 * i);
         }
     }
-    private void skipwordQuestion()
+    private void skipwordQuestion(int theme)
     {
         clear();
         task.append(task2);
@@ -235,7 +234,8 @@ public class TestWindow  {
         wordList.setText(extra_task2);
         wordList.setLocation(500, 550);
         wordList.setSize(100, 50);
-        String[] parts = questions[currentQuestion].split(" ___ ");
+        Connection con = new Connection();
+        String[] parts = con.getQuestion(theme,currentQuestion).split(" ___ ");
         question.setText(parts[0]);
         question.setLocation(500, 300);
         question.setSize(400, 40);
@@ -258,9 +258,9 @@ public class TestWindow  {
         if (parts.length == 2) question_2.setText(parts[1]);
         else question_2.setText("");
         DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        for (int i = 0; i < 4; i++)
-        {
-            wordListModel.addElement(answers[currentQuestion][i]);
+        ArrayList <String> var = con.getAns(theme,currentQuestion);
+        for (int i = 0; i < var.size(); i++){
+            wordListModel.addElement(var.get(i));
         }
         options.setModel(wordListModel);
         options.setDragEnabled(true);
@@ -268,24 +268,25 @@ public class TestWindow  {
         options.setLocation(500, 600);
         options.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++){
             answersCheckboxes[i].setVisible(false);
             answersCheckboxes[i].setSize(10, 10);
             answersCheckboxes[i].setLocation(30, 30 + 5 * i);
         }
     }
-    private void testQuestion()
+    private void testQuestion(int theme)
     {
         clear();
         task.append(task3);
         task.setLocation(400, 200);
         task.setSize(800, 80);
-        question.setText(questions[currentQuestion]);
+        Connection con = new Connection();
+        question.setText(con.getQuestion(theme,currentQuestion));
         question.setLocation(600, 300);
         question.setSize(500, 40);
+        ArrayList <String> var = con.getAns(theme,currentQuestion);
         for (int i = 0; i < 4; i++) {
-            answersCheckboxes[i].setText(answers[currentQuestion][i]);
+            answersCheckboxes[i].setText(var.get(i));
             answersCheckboxes[i].setVisible(true);
             answersCheckboxes[i].setSelected(false);
             answersCheckboxes[i].setBackground(lightBlue);
@@ -314,12 +315,14 @@ public class TestWindow  {
         options.setBackground(lightBlue);
         options.setLocation(30, 30);
     }
-    private void matchQuestion()
+    private void matchQuestion(int theme)
     {
         task.append(task4);
-        question.setText(questions[currentQuestion]);
+        Connection con = new Connection();
+        question.setText(con.getQuestion(theme,currentQuestion));
         question.setLocation(400, 300);
         question.setSize(700, 40);
+        ArrayList <String> var = con.getAns(theme,currentQuestion);
         for (int i = 0; i < columns[currentQuestion].length; i++) {
             label[i].setText(columns[currentQuestion][i]);
             comboBoxes[i].setVisible(true);
@@ -361,46 +364,39 @@ public class TestWindow  {
             comboBoxes[i].setModel(new JComboBox<>(arr).getModel());
         }
     }
-    private void get_answer()
-    {
-        if (Type[currentQuestion] == 1 || Type[currentQuestion] == 2)
-        {
-            user_answers[currentQuestion] = answerField.getText();
-        }
-        else if (Type[currentQuestion] == 3)
-        {
+    private void get_answer(int curType, int theme){
+        if (curType == 1 || curType == 2){
             String s = "";
             for (int i = 0; i < 4; i++) {
                 if (answersCheckboxes[i].isSelected()) s += i;
             }
             user_answers[currentQuestion] = s;
         }
-        else if (Type[currentQuestion] == 4)
-        {
+        else if (curType== 3 || curType==4){
+            user_answers[currentQuestion] = answerField.getText();
+        }
+        else if (curType == 5){
             String s = "";
-            for(int i = 0; i < columns[currentQuestion].length; i++)
-            {
-                int index = retutn_index(comboBoxes[i].getSelectedItem());
+            for(int i = 0; i < columns[currentQuestion].length; i++){
+                int index = return_index(comboBoxes[i].getSelectedItem(), theme);
                 s += index;
             }
             user_answers[currentQuestion] = s;
         }
     }
-    private int retutn_index (Object s)
-    {
-        for(int i = 0; i < answers[currentQuestion].length; i++)
-        {
-            if (s.equals(answers[currentQuestion][i])) return i;
+    private int return_index (Object s, int theme){
+        Connection con = new Connection();
+        ArrayList <String> var = con.getAns(theme,currentQuestion);
+        for(int i = 0; i < var.size(); i++){
+            if (s.equals(var.get(i))) return i;
         }
         return 0;
     }
     private String get_result(){
         int score = 0;
         String result = "", total = "";
-        for(int i = 0; i < countQuestions; i++)
-        {
-            if (right_answers[i].equals(user_answers[i]))
-            {
+        for(int i = 0; i < countQuestions; i++){
+            if (right_answers[i].equals(user_answers[i])){
                 score++;
                 result += ((i + 1) + " : ПРАВИЛЬНО\n");
             }

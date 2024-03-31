@@ -11,7 +11,7 @@ public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
     private static Color lightBlue= new Color(219,232,255);
-    public enum Topic {Basis, Sorts, Graphs, Data_structures, Algorithmic_paradigms, Control_Test}
+    public enum Topic {Basis, Sorts, Data_structures, Graphs,  Algorithmic_paradigms, Control_Test}
 
     public JFrame create_main_window()
     {
@@ -50,7 +50,7 @@ public class MainWindow {
         // потом засунем в какую-нибудь функцию
         JButton btntst = new JButton("Контрольный тест");
         BufferedImage oImage = null;
-        File file = new File("images/тест.jpg");
+        File file = new File("images/тест.png");
         try {
             oImage = ImageIO.read(file);
         } catch (IOException ex) {
@@ -66,7 +66,7 @@ public class MainWindow {
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame tst = tw.create_test_window(frame, Topic.Control_Test);
+                JFrame tst = tw.create_test_window(frame, 6);
                 frame.setVisible(false);
                 tst.setVisible(true);
             }
@@ -114,11 +114,11 @@ public class MainWindow {
             button_name = "Сортировки";
         }
         else if (topic == Topic.Graphs) {
-            file = new File ("images/графы.jpg");
+            file = new File ("images/графы.png");
             button_name = "Графы";
         }
         else if (topic == Topic.Data_structures) {
-            file = new File ("images/структурыданных.jpg");
+            file = new File ("images/структурыданных.png");
             button_name = "Структуры данных";
         }
         else if (topic == Topic.Algorithmic_paradigms) {

@@ -16,13 +16,13 @@ public class TheoryWindow {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setLayout(null);
         frame.getContentPane().setBackground(lightBlue);
-
+        int theme=-1;
         String filepath = "";
-        if (topic == MainWindow.Topic.Basis) filepath = "theories//basis.txt";
-        else if (topic == MainWindow.Topic.Sorts) filepath = "theories//sorts.txt";
-        else if (topic == MainWindow.Topic.Graphs) filepath = "theories//graphs.txt";
-        else if (topic == MainWindow.Topic.Data_structures) filepath = "theories//data structures.txt";
-        else if (topic == MainWindow.Topic.Algorithmic_paradigms) filepath = "theories//algoritmic paradigms.txt";
+        if (topic == MainWindow.Topic.Basis) {filepath = "theories//basis.txt"; theme=1;}
+        else if (topic == MainWindow.Topic.Sorts) {filepath = "theories//sorts.txt"; theme=2;}
+        else if (topic == MainWindow.Topic.Graphs) {filepath = "theories//graphs.txt"; theme=4;}
+        else if (topic == MainWindow.Topic.Data_structures) {filepath = "theories//data structures.txt"; theme=3;}
+        else if (topic == MainWindow.Topic.Algorithmic_paradigms) {filepath = "theories//algoritmic paradigms.txt"; theme=5;}
 
         text = new JTextArea();
         text.setEditable(false);
@@ -64,10 +64,12 @@ public class TheoryWindow {
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
         btntest.setLocation(625, 715);
+
+        int finalTheme = theme;
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame test = tw.create_test_window(frame, topic);
+                JFrame test = tw.create_test_window(frame, finalTheme);
                 frame.setVisible(false);
                 test.setVisible(true);
             }
