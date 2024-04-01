@@ -10,7 +10,7 @@ import java.io.IOException;
 public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
-    private static Color lightBlue= new Color(219,232,255);
+    private static Color lightBlue= new Color(67,21,113);
     public enum Topic {Basis, Sorts, Data_structures, Graphs,  Algorithmic_paradigms, Control_Test}
 
     public JFrame create_main_window()

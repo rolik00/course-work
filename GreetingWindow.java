@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class GreetingWindow {
     private JFrame frame;
-    private static Color lightBlue= new Color(219,232,255), Blue = new Color(0, 0, 255);
+    private static Color lightBlue= new Color(67,21,113), Blue = new Color(233, 178, 127);
     private static String NAME = "ЗДЕСЬ БУДЕТ НАЗВАНИЕ", SLOGAN = "ЗДЕСЬ БУДЕТ ЛОЗУНГ";
     private static Font font_Name = new Font("Courier New", Font.BOLD, 48), font_Slogan = new Font("Courier New", Font.PLAIN, 18);
     private JLabel name, slogan;

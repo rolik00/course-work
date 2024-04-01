@@ -9,7 +9,7 @@ import java.io.IOException;
 public class TheoryWindow {
     private JFrame frame;
     private JTextArea text;
-    private static Color lightBlue= new Color(219,232,255);
+    private static Color lightBlue= new Color(67,21,113);
 
     public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) {
         frame = new JFrame(String.valueOf(topic));

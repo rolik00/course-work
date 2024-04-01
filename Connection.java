@@ -43,9 +43,16 @@ public class Connection {
         try {
             java.sql.Connection con = DriverManager.getConnection(connectionUrl);
             Statement stmt  = con.createStatement();
-            try (ResultSet rs = stmt.executeQuery("SELECT name FROM rightvar WHERE id = "+resnumber)) {
-                rs.next();
-                return rs.getString("name");
+            try (ResultSet rs = stmt.executeQuery("SELECT name FROM rightvar WHERE idquestion = "+resnumber)) {
+                if (getType(theme,number)==2){
+                    String res = "";
+                    while (rs.next())
+                        res+=rs.getString("name");
+                    return res;
+                }
+                else{
+                    rs.next();
+                    return rs.getString("name");}
             }
         } catch (SQLException e) {
             e.printStackTrace();
