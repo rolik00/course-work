@@ -21,8 +21,8 @@ public class TestWindow  {
     private int[] types = {0,0,0,0,0,0,0,0,0,0,0};
     private String[] user_answers = {"","", "", "", "", "", "", "", "", ""};
     private JButton nextButton, prevButton, resButton, exitButton;
-    private JLabel question, question_2;
-    private JTextField answerField;
+    private JLabel question, question_2, question_3;
+    private JTextField answerField, answerField_2;
     private JTextArea task, wordList;
     private JList<String> options;
     private JCheckBox[] answersCheckboxes = new JCheckBox[4];
@@ -60,9 +60,16 @@ public class TestWindow  {
         question_2.setFont(font);
         frame.add(question_2);
         frame.add(question);
+        question_3 = new JLabel();
+        question_3.setLocation(600, 350);
+        question_3.setSize(300, 40);
+        question_3.setFont(font);
+        frame.add(question_3);
 
         answerField = new JTextField(1);
         frame.add(answerField);
+        answerField_2 = new JTextField(1);
+        frame.add(answerField_2);
 
         options = new JList<>();
         options.setSize(400, 150);
@@ -226,12 +233,50 @@ public class TestWindow  {
         wordList.setText(extra_task2);
         wordList.setLocation(500, 550);
         wordList.setSize(100, 50);
+
         Connection con = new Connection();
         String[] parts = con.getQuestion(theme,currentQuestion+1).split("____");
         question.setText(parts[0]);
         question.setLocation(500, 300);
         question.setSize(400, 40);
         answerField.setText(user_answers[currentQuestion]);
+
+        String qstn = con.getQuestion(theme,currentQuestion+1);
+        ArrayList <String> var = con.getAns(theme,currentQuestion+1);
+        int count = qstn.length() - qstn.replace(" ____", "").length();
+        count = count / 5;
+        if (count == 2)
+        {
+            if (parts.length == 3) question_3.setText(parts[2]);
+            else question_3.setText("");
+            if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length() != 1){
+                int index = user_answers[currentQuestion].charAt(1) - '0';
+                answerField_2.setText(var.get(index));
+            }
+            else answerField_2.setText("");
+            answerField_2.setLocation(1250, 300);
+            answerField_2.setSize(100, 40);
+            answerField_2.setEditable(false);
+            answerField_2.setVisible(true);
+            answerField_2.setDropTarget(new DropTarget(answerField_2, DnDConstants.ACTION_COPY, new DropTargetAdapter() {
+                public void drop(DropTargetDropEvent dtde) {
+                    try {
+                        Transferable transferable = dtde.getTransferable();
+                        String word = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+                        answerField_2.setText(word);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }));
+        }
+
+        if (user_answers[currentQuestion] != ""){
+            int index = user_answers[currentQuestion].charAt(0) - '0';
+            answerField.setText(var.get(index));
+        }
+        else answerField.setText("");
+
         answerField.setLocation(850, 300);
         answerField.setSize(100, 40);
         answerField.setEditable(false);
@@ -250,7 +295,6 @@ public class TestWindow  {
         if (parts.length == 2) question_2.setText(parts[1]);
         else question_2.setText("");
         DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        ArrayList <String> var = con.getAns(theme,currentQuestion+1);
         for (int i = 0; i < var.size(); i++){
             wordListModel.addElement(var.get(i));
         }
