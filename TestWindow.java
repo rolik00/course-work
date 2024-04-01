@@ -209,21 +209,6 @@ public class TestWindow  {
         answerField.setSize(300, 40);
         answerField.setEditable(true);
         answerField.setVisible(true);
-        question_2.setText("");
-        wordList.setText("");
-        wordList.setLocation(20,30);
-        DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        wordListModel.addElement("");
-        options.setModel(wordListModel);
-        options.setBorder(BorderFactory.createLineBorder(lightBlue, 2));
-        options.setBackground(lightBlue);
-        options.setLocation(30, 30);
-
-        for (int i = 0; i < 4; i++){
-            answersCheckboxes[i].setVisible(false);
-            answersCheckboxes[i].setSize(10, 10);
-            answersCheckboxes[i].setLocation(30, 30 + 5 * i);
-        }
     }
     private void skipwordQuestion(int theme){
         clear();
@@ -303,12 +288,6 @@ public class TestWindow  {
         options.setBackground(Color.white);
         options.setLocation(500, 600);
         options.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
-
-        for (int i = 0; i < 4; i++){
-            answersCheckboxes[i].setVisible(false);
-            answersCheckboxes[i].setSize(10, 10);
-            answersCheckboxes[i].setLocation(30, 30 + 5 * i);
-        }
     }
     private void testQuestion(int theme)
     {
@@ -335,19 +314,6 @@ public class TestWindow  {
                 answersCheckboxes[index].setSelected(true);
             }
         }
-
-        answerField.setEditable(false);
-        answerField.setLocation(40, 40);
-        answerField.setVisible(false);
-        question_2.setText("");
-        wordList.setText("");
-        wordList.setLocation(20,30);
-        DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        wordListModel.addElement("");
-        options.setModel(wordListModel);
-        options.setBorder(BorderFactory.createLineBorder(lightBlue, 2));
-        options.setBackground(lightBlue);
-        options.setLocation(30, 30);
     }
     private void matchQuestion(int theme)
     {
@@ -373,24 +339,6 @@ public class TestWindow  {
                 comboBoxes[i].setSelectedIndex(index);
             }
         }
-
-        answerField.setEditable(false);
-        answerField.setLocation(40, 40);
-        answerField.setVisible(false);
-        question_2.setText("");
-        wordList.setText("");
-        wordList.setLocation(20,30);
-        DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        wordListModel.addElement("");
-        options.setModel(wordListModel);
-        options.setBorder(BorderFactory.createLineBorder(lightBlue, 2));
-        options.setBackground(lightBlue);
-        options.setLocation(30, 30);
-        for (int i = 0; i < 4; i++){
-            answersCheckboxes[i].setVisible(false);
-            answersCheckboxes[i].setSize(10, 10);
-            answersCheckboxes[i].setLocation(30, 30 + 5 * i);
-        }
     }
     private void clear() {
         for (int i = 0; i < 5; i++) {
@@ -399,10 +347,38 @@ public class TestWindow  {
             comboBoxes[i].setVisible(false);
             comboBoxes[i].setModel(new JComboBox<>(arr).getModel());
         }
+        answerField.setEditable(false);
+        answerField.setLocation(40, 40);
+        answerField.setVisible(false);
+        question_2.setText("");
+        answerField_2.setText("");
+        answerField_2.setEditable(false);
+        answerField_2.setLocation(40, 40);
+        answerField_2.setVisible(false);
+        question_3.setText("");
+        wordList.setText("");
+        wordList.setLocation(20,30);
+        DefaultListModel<String> wordListModel = new DefaultListModel<>();
+        wordListModel.addElement("");
+        options.setModel(wordListModel);
+        options.setBorder(BorderFactory.createLineBorder(lightBlue, 2));
+        options.setBackground(lightBlue);
+        options.setLocation(30, 30);
+        for (int i = 0; i < 4; i++)
+        {
+            answersCheckboxes[i].setVisible(false);
+            answersCheckboxes[i].setSize(10, 10);
+            answersCheckboxes[i].setLocation(30, 30 + 5 * i);
+        }
     }
     private void get_answer(int curType, int theme){
-        if (curType== 3 || curType==4){
+        if (curType== 3){
             user_answers[currentQuestion] = answerField.getText();
+        }
+        else if (curType==4){
+            String s1 = answerField.getText(), s2 = answerField_2.getText();
+            if (return_index(s1,theme) != -1 || s1.equals("") == false) user_answers[currentQuestion] += return_index(s1,theme);
+            if (return_index(s2,theme) != -1 || s2.equals("") == false) user_answers[currentQuestion] += return_index(s2,theme);
         }
         else if (curType == 1 || curType == 2){
             String s = "";
