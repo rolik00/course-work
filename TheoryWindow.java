@@ -9,20 +9,21 @@ import java.io.IOException;
 public class TheoryWindow {
     private JFrame frame;
     private JTextArea text;
-    private static Color lightBlue= new Color(67,21,113);
 
     public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) {
         frame = new JFrame(String.valueOf(topic));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setLayout(null);
-        frame.getContentPane().setBackground(lightBlue);
-        int theme=-1;
+        frame.getContentPane().setBackground(MainWindow.main_color);
+        frame.setUndecorated(true);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+
         String filepath = "";
-        if (topic == MainWindow.Topic.Basis) {filepath = "theories//basis.txt"; theme=1;}
-        else if (topic == MainWindow.Topic.Sorts) {filepath = "theories//sorts.txt"; theme=2;}
-        else if (topic == MainWindow.Topic.Graphs) {filepath = "theories//graphs.txt"; theme=4;}
-        else if (topic == MainWindow.Topic.Data_structures) {filepath = "theories//data structures.txt"; theme=3;}
-        else if (topic == MainWindow.Topic.Algorithmic_paradigms) {filepath = "theories//algoritmic paradigms.txt"; theme=5;}
+        if (topic == MainWindow.Topic.Basis) filepath = "theories//basis.txt";
+        else if (topic == MainWindow.Topic.Sorts) filepath = "theories//sorts.txt";
+        else if (topic == MainWindow.Topic.Graphs) filepath = "theories//graphs.txt";
+        else if (topic == MainWindow.Topic.Data_structures) filepath = "theories//data structures.txt";
+        else if (topic == MainWindow.Topic.Algorithmic_paradigms) filepath = "theories//algoritmic paradigms.txt";
 
         text = new JTextArea();
         text.setEditable(false);
@@ -64,12 +65,10 @@ public class TheoryWindow {
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
         btntest.setLocation(625, 715);
-
-        int finalTheme = theme;
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame test = tw.create_test_window(frame, finalTheme);
+                JFrame test = tw.create_test_window(frame, topic);
                 frame.setVisible(false);
                 test.setVisible(true);
             }
