@@ -10,8 +10,8 @@ import java.io.IOException;
 public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
-    private static Color lightBlue= new Color(67,21,113);
-    public enum Topic {Basis, Sorts, Data_structures, Graphs,  Algorithmic_paradigms, Control_Test}
+    public static Color main_color = new Color(67,21,113), title_color = new Color(233, 178, 127);
+    public enum Topic {Basis, Sorts, Data_structures, Graphs, Algorithmic_paradigms, Control_Test}
 
     public JFrame create_main_window()
     {
@@ -30,7 +30,9 @@ public class MainWindow {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-        frame.getContentPane().setBackground(lightBlue);
+        frame.getContentPane().setBackground(main_color);
+        frame.setUndecorated(true);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
         JButton btnbss = create_main_button(Topic.Basis);
         frame.add(btnbss);
@@ -38,11 +40,11 @@ public class MainWindow {
         JButton btnstr = create_main_button(Topic.Sorts);
         frame.add(btnstr);
 
-        JButton btngrp = create_main_button(Topic.Graphs);
-        frame.add(btngrp);
-
         JButton btndts = create_main_button(Topic.Data_structures);
         frame.add(btndts);
+
+        JButton btngrp = create_main_button(Topic.Graphs);
+        frame.add(btngrp);
 
         JButton btnalg = create_main_button(Topic.Algorithmic_paradigms);
         frame.add(btnalg);
@@ -50,7 +52,7 @@ public class MainWindow {
         // потом засунем в какую-нибудь функцию
         JButton btntst = new JButton("Контрольный тест");
         BufferedImage oImage = null;
-        File file = new File("images/тест.png");
+        File file = new File("images/тест.jpg");
         try {
             oImage = ImageIO.read(file);
         } catch (IOException ex) {
@@ -66,7 +68,7 @@ public class MainWindow {
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame tst = tw.create_test_window(frame, 6);
+                JFrame tst = tw.create_test_window(frame, Topic.Control_Test);
                 frame.setVisible(false);
                 tst.setVisible(true);
             }
@@ -91,7 +93,7 @@ public class MainWindow {
                 System.exit(0);
             }
         });
-        menu.setBackground(lightBlue);
+        menu.setBackground(main_color);
         menu.add(menustatistic);
         menu.add(menuexit);
         menuBar.add(menu);
@@ -113,13 +115,13 @@ public class MainWindow {
             file = new File("images/сортировки.png");
             button_name = "Сортировки";
         }
-        else if (topic == Topic.Graphs) {
-            file = new File ("images/графы.png");
-            button_name = "Графы";
-        }
         else if (topic == Topic.Data_structures) {
-            file = new File ("images/структурыданных.png");
+            file = new File ("images/структурыданных.jpg");
             button_name = "Структуры данных";
+        }
+        else if (topic == Topic.Graphs) {
+            file = new File ("images/графы.jpg");
+            button_name = "Графы";
         }
         else if (topic == Topic.Algorithmic_paradigms) {
             file = new File ("images/алгпарадигмы.png");
@@ -134,8 +136,8 @@ public class MainWindow {
         button.setSize(btn_width, btn_height);
         if (topic == Topic.Basis) button.setLocation(locx1, locy1);
         else if (topic == Topic.Sorts) button.setLocation(locx2, locy1);
-        else if (topic == Topic.Graphs) button.setLocation(locx3, locy1);
-        else if (topic == Topic.Data_structures) button.setLocation(locx1, locy2);
+        else if (topic == Topic.Data_structures) button.setLocation(locx3, locy1);
+        else if (topic == Topic.Graphs) button.setLocation(locx1, locy2);
         else if (topic == Topic.Algorithmic_paradigms) button.setLocation(locx2, locy2);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
