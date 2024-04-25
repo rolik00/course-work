@@ -8,19 +8,21 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class TestWindow  {
 
     private int currentQuestion = 0;
-    private static int countQuestions = 10;
+    public static int countQuestions = 10;
+    public static String[] questions = new String[countQuestions];
+    public static String[][] answers = new String[countQuestions][];
+    public static String[][] columns = new String[countQuestions][];
+    public static String[][] right_answers = new String[countQuestions][];
+    public static int[] Type = new int[countQuestions];
+    private String[] user_answers = {"", "", "", "", "", "", "", "", "", ""};
     private static String task1 = ": Ответьте на вопрос.", task2 =": Выберите из предложенного списка слова и вставьте их в текст на места пропусков.",
             extra_task2 = "Список слов:", task3 = ": Выберите все правильные ответы (количество правильных ответов может быть от 1 до 4).",
             task4 = ": Установите соответствие.";
-    private String[] answers = {"","", "", "", "", "", "", "", "", ""};
-    private int[] types = {0,0,0,0,0,0,0,0,0,0,0};
-    private String[] user_answers = {"","", "", "", "", "", "", "", "", ""};
-    private JButton nextButton, prevButton, resButton, exitButton;
+    private JButton nextButton, prevButton, resButton;
     private JLabel question, question_2, question_3;
     private JTextField answerField, answerField_2;
     private JTextArea task, wordList;
@@ -30,49 +32,59 @@ public class TestWindow  {
     private JLabel[] label = new JLabel[5];
     private JProgressBar progressBar;
     private JFrame frame;
-    private static Color lightBlue= new Color(255,207,163);
-    private static Font font = new Font("Verdana", Font.PLAIN, 18);
+    private static Font font = new Font("Verdana", Font.PLAIN, 14);
 
-    public JFrame create_test_window(JFrame other, int theme) {
+    public JFrame create_test_window(JFrame other, MainWindow.Topic topic) {
+        Connection con = new Connection();
+        con.create_test_info(topic.ordinal());
         frame = new JFrame("TECT");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setLayout(null);
-        frame.getContentPane().setBackground(lightBlue);
+        frame.getContentPane().setBackground(MainWindow.main_color);
+        frame.setUndecorated(true);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
         task = new JTextArea();
         task.setText("Вопрос " + (currentQuestion + 1));
         task.setEditable(false);
-        task.setBackground(lightBlue);
+        task.setBackground(MainWindow.main_color);
         task.setFont(font);
+        task.setForeground(MainWindow.title_color);
         frame.add(task);
 
         wordList = new JTextArea("");
+        wordList.setForeground(MainWindow.title_color);
         wordList.setEditable(false);
-        wordList.setBackground(lightBlue);
+        wordList.setBackground(MainWindow.main_color);
         wordList.setFont(font);
         frame.add(wordList);
 
         question = new JLabel();
         question_2 = new JLabel();
         question.setFont(font);
+        question.setForeground(MainWindow.title_color);
         question_2.setLocation(950, 300);
         question_2.setSize(300, 40);
         question_2.setFont(font);
+        question_2.setForeground(MainWindow.title_color);
         frame.add(question_2);
         frame.add(question);
         question_3 = new JLabel();
         question_3.setLocation(600, 350);
         question_3.setSize(300, 40);
         question_3.setFont(font);
+        question_3.setForeground(MainWindow.title_color);
         frame.add(question_3);
 
         answerField = new JTextField(1);
+        answerField.setForeground(MainWindow.title_color);
         frame.add(answerField);
         answerField_2 = new JTextField(1);
+        answerField_2.setForeground(MainWindow.title_color);
         frame.add(answerField_2);
 
         options = new JList<>();
-        options.setSize(400, 150);
+        options.setSize(100, 100);
         options.setFont(font);
         frame.add(options);
 
@@ -80,28 +92,27 @@ public class TestWindow  {
             label[i] = new JLabel("");
             label[i].setSize(300, 40);
             label[i].setLocation(400, 300 + 50 * (i + 1));
+            label[i].setForeground(MainWindow.title_color);
             frame.add(label[i]);
             comboBoxes[i] = new JComboBox<>();
             comboBoxes[i].setVisible(false);
             comboBoxes[i].setSize(500, 40);
             comboBoxes[i].setLocation(750, 300 + 50 * (i + 1));
+            comboBoxes[i].setForeground(MainWindow.title_color);
             frame.add(comboBoxes[i]);
         }
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++)
+        {
             answersCheckboxes[i] = new JCheckBox("");
+            answersCheckboxes[i].setForeground(MainWindow.title_color);
             frame.add(answersCheckboxes[i]);
         }
 
-        Connection con = new Connection();
-        int curType = con.getType(theme,currentQuestion+1);
-        if (curType== 1 || curType == 2) testQuestion(theme);
-        else if (curType == 3) openQuestion(theme);
-        else if (curType == 4) skipwordQuestion(theme);
-        else if (curType == 5) matchQuestion(theme);
-        for (int i=0;i<10;i++){                         //исправить потом
-            answers[i] = con.getRightVar(theme,i+1);
-        }
+        if (Type[currentQuestion] == 1 || Type[currentQuestion] == 2) testQuestion();
+        else if (Type[currentQuestion] == 3) openQuestion();
+        else if (Type[currentQuestion] == 4) skipwordQuestion();
+        else if (Type[currentQuestion] == 5) matchQuestion();
 
         nextButton = new JButton("Вперед");
         prevButton = new JButton("Назад");
@@ -109,47 +120,36 @@ public class TestWindow  {
         nextButton.setLocation(1300, 700);
         prevButton.setSize(200, 40);
         prevButton.setLocation(25, 700);
-        JButton resButton = new JButton("Показать результаты");
+        resButton = new JButton("Завершить тест");
         resButton.setSize(200, 40);
         resButton.setLocation(600, 700);
-        JButton exitButton = new JButton("Выход");
-        exitButton.setSize(100, 40);
-        exitButton.setLocation(900, 700);
         prevButton.setVisible(false);
-        exitButton.setVisible(false);
         resButton.setVisible(false);
         frame.add(nextButton);
         frame.add(prevButton);
-        frame.add(exitButton);
         frame.add(resButton);
         nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                get_answer(curType, theme);
+                get_answer();
                 clear();
                 if (currentQuestion < 9) {
                     currentQuestion++;
-                    int curType = con.getType(theme,currentQuestion+1);
                     task.setText("Вопрос " + (currentQuestion + 1));
-                    if (curType == 1 || curType == 2) testQuestion(theme);
-                    else if (curType == 3) openQuestion(theme);
-                    else if (curType == 4) skipwordQuestion(theme);
-                    else if (curType == 5) matchQuestion(theme);
+                    if (Type[currentQuestion] == 1 || Type[currentQuestion] == 2) testQuestion();
+                    else if (Type[currentQuestion] == 3) openQuestion();
+                    else if (Type[currentQuestion] == 4) skipwordQuestion();
+                    else if (Type[currentQuestion] == 5) matchQuestion();
                     if (currentQuestion == 9) {
                         nextButton.setVisible(false);
                         resButton.setVisible(true);
-                        exitButton.setVisible(true);
                         resButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                get_answer(curType, theme);
-                                String result = get_result();
-                                JOptionPane.showMessageDialog(null, result);
-                            }
-                        });
-                        exitButton.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                StatisticsWindow sw = new StatisticsWindow();
+                                get_answer();
+                                String result = get_result(topic);
+                                ResultWindow rw = new ResultWindow();
+                                JFrame res = rw.create_result_window(other, result);
+                                res.setVisible(true);
                                 frame.setVisible(false);
-                                other.setVisible(true);
                             }
                         });
                     }
@@ -158,9 +158,8 @@ public class TestWindow  {
                     {
                         nextButton.setVisible(true);
                         resButton.setVisible(false);
-                        exitButton.setVisible(false);
                     }
-                    progressBar.setValue(currentQuestion+1);
+                    progressBar.setValue(currentQuestion + 1);
                 }
             }
         });
@@ -169,19 +168,18 @@ public class TestWindow  {
             public void actionPerformed(ActionEvent e) {
                 if (currentQuestion > 0) {
                     currentQuestion--;
-                    int curType = con.getType(theme,currentQuestion+1);
-                    task.setText("Вопрос " + (currentQuestion+1));
-                    if (curType == 1 || curType== 2) testQuestion(theme);
-                    else if (curType== 3) openQuestion(theme);
-                    else if (curType == 4) skipwordQuestion(theme);
-                    else if (curType == 5) matchQuestion(theme);
-                    if (currentQuestion != 9){
+                    task.setText("Вопрос " + (currentQuestion + 1));
+                    if (Type[currentQuestion] == 1 || Type[currentQuestion] == 2) testQuestion();
+                    else if (Type[currentQuestion] == 3) openQuestion();
+                    else if (Type[currentQuestion] == 4) skipwordQuestion();
+                    else if (Type[currentQuestion] == 5) matchQuestion();
+                    if (currentQuestion != 9)
+                    {
                         nextButton.setVisible(true);
                         resButton.setVisible(false);
-                        exitButton.setVisible(false);
                     }
                     if (currentQuestion == 0) prevButton.setVisible(false);
-                    progressBar.setValue(currentQuestion+1);
+                    progressBar.setValue(currentQuestion + 1);
                 }
             }
         });
@@ -195,13 +193,13 @@ public class TestWindow  {
         return frame;
     }
 
-    private void openQuestion(int theme){
+    private void openQuestion()
+    {
         clear();
         task.append(task1);
         task.setLocation(600, 200);
         task.setSize(700, 80);
-        Connection con = new Connection();
-        question.setText(con.getQuestion(theme,currentQuestion+1));
+        question.setText(questions[currentQuestion]);
         question.setLocation(600, 300);
         question.setSize(500, 40);
         answerField.setText(user_answers[currentQuestion]);
@@ -210,7 +208,8 @@ public class TestWindow  {
         answerField.setEditable(true);
         answerField.setVisible(true);
     }
-    private void skipwordQuestion(int theme){
+    private void skipwordQuestion()
+    {
         clear();
         task.append(task2);
         task.setLocation(400, 200);
@@ -218,25 +217,17 @@ public class TestWindow  {
         wordList.setText(extra_task2);
         wordList.setLocation(500, 550);
         wordList.setSize(100, 50);
-
-        Connection con = new Connection();
-        String[] parts = con.getQuestion(theme,currentQuestion+1).split("____");
-        question.setText(parts[0]);
-        question.setLocation(500, 300);
-        question.setSize(400, 40);
-        answerField.setText(user_answers[currentQuestion]);
-
-        String qstn = con.getQuestion(theme,currentQuestion+1);
-        ArrayList <String> var = con.getAns(theme,currentQuestion+1);
-        int count = qstn.length() - qstn.replace(" ____", "").length();
+        int count = questions[currentQuestion].length() - questions[currentQuestion].replace("____ ", "").length();
         count = count / 5;
+        String[] parts = questions[currentQuestion].split("____ ");
         if (count == 2)
         {
             if (parts.length == 3) question_3.setText(parts[2]);
             else question_3.setText("");
-            if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length() != 1){
+            if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length() != 1)
+            {
                 int index = user_answers[currentQuestion].charAt(1) - '0';
-                answerField_2.setText(var.get(index));
+                answerField_2.setText(answers[currentQuestion][index]);
             }
             else answerField_2.setText("");
             answerField_2.setLocation(1250, 300);
@@ -255,13 +246,15 @@ public class TestWindow  {
                 }
             }));
         }
-
-        if (user_answers[currentQuestion] != ""){
+        question.setText(parts[0]);
+        question.setLocation(500, 300);
+        question.setSize(400, 40);
+        if (user_answers[currentQuestion] != "")
+        {
             int index = user_answers[currentQuestion].charAt(0) - '0';
-            answerField.setText(var.get(index));
+            answerField.setText(answers[currentQuestion][index]);
         }
         else answerField.setText("");
-
         answerField.setLocation(850, 300);
         answerField.setSize(100, 40);
         answerField.setEditable(false);
@@ -277,11 +270,12 @@ public class TestWindow  {
                 }
             }
         }));
-        if (parts.length == 2) question_2.setText(parts[1]);
+        if (parts.length >= 2) question_2.setText(parts[1]);
         else question_2.setText("");
         DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        for (int i = 0; i < var.size(); i++){
-            wordListModel.addElement(var.get(i));
+        for (int i = 0; i < 4; i++)
+        {
+            wordListModel.addElement(answers[currentQuestion][i]);
         }
         options.setModel(wordListModel);
         options.setDragEnabled(true);
@@ -289,52 +283,48 @@ public class TestWindow  {
         options.setLocation(500, 600);
         options.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
     }
-    private void testQuestion(int theme)
+    private void testQuestion()
     {
         clear();
         task.append(task3);
         task.setLocation(400, 200);
         task.setSize(800, 80);
-        Connection con = new Connection();
-        question.setText(con.getQuestion(theme,currentQuestion+1));
+        question.setText(questions[currentQuestion]);
         question.setLocation(600, 300);
         question.setSize(500, 40);
-        ArrayList <String> var = con.getAns(theme,currentQuestion+1);
         for (int i = 0; i < 4; i++) {
-            answersCheckboxes[i].setText(var.get(i));
+            answersCheckboxes[i].setText(answers[currentQuestion][i]);
             answersCheckboxes[i].setVisible(true);
             answersCheckboxes[i].setSelected(false);
-            answersCheckboxes[i].setBackground(lightBlue);
+            answersCheckboxes[i].setBackground(MainWindow.main_color);
             answersCheckboxes[i].setSize(300, 40);
             answersCheckboxes[i].setLocation(650, 300 + 50 * (i + 1));
         }
-        if (user_answers[currentQuestion] != ""){
-            for(int i = 0; i < user_answers[currentQuestion].length(); i++){
-                int index = user_answers[currentQuestion].charAt(i) - '0';
+        if (user_answers[currentQuestion] != "")
+        {
+            for(int i = 0; i < user_answers[currentQuestion].length(); i++)
+            {
+                int index = user_answers[currentQuestion].charAt(i) - 1 - '0';
                 answersCheckboxes[index].setSelected(true);
             }
         }
     }
-    private void matchQuestion(int theme)
+    private void matchQuestion()
     {
+        clear();
         task.append(task4);
-        Connection con = new Connection();
-        question.setText(con.getQuestion(theme,currentQuestion+1));
+        question.setText(questions[currentQuestion]);
         question.setLocation(400, 300);
         question.setSize(700, 40);
-        ArrayList <String> var = con.getAns(theme,currentQuestion+1);
-        String[] forBox = new String[1+var.size()/2];
-        forBox[0] = "";
-        for (int i = 0; i < var.size()/2; i++) {
-            forBox[i+1] = var.get(i+var.size()/2);
-        }
-        for (int i = 0; i < var.size()/2; i++) {
-            label[i].setText(var.get(i));
+        for (int i = 0; i < columns[currentQuestion].length; i++) {
+            label[i].setText(columns[currentQuestion][i]);
             comboBoxes[i].setVisible(true);
-            comboBoxes[i].setModel(new JComboBox<>(forBox).getModel());
+            comboBoxes[i].setModel(new JComboBox<>(answers[currentQuestion]).getModel());
         }
-        if (user_answers[currentQuestion] != ""){
-            for(int i = 0; i < user_answers[currentQuestion].length(); i++){
+        if (user_answers[currentQuestion] != "")
+        {
+            for(int i = 0; i < user_answers[currentQuestion].length(); i++)
+            {
                 int index = user_answers[currentQuestion].charAt(i) - '0';
                 comboBoxes[i].setSelectedIndex(index);
             }
@@ -361,8 +351,8 @@ public class TestWindow  {
         DefaultListModel<String> wordListModel = new DefaultListModel<>();
         wordListModel.addElement("");
         options.setModel(wordListModel);
-        options.setBorder(BorderFactory.createLineBorder(lightBlue, 2));
-        options.setBackground(lightBlue);
+        options.setBorder(BorderFactory.createLineBorder(MainWindow.main_color, 2));
+        options.setBackground(MainWindow.main_color);
         options.setLocation(30, 30);
         for (int i = 0; i < 4; i++)
         {
@@ -371,54 +361,72 @@ public class TestWindow  {
             answersCheckboxes[i].setLocation(30, 30 + 5 * i);
         }
     }
-    private void get_answer(int curType, int theme){
-        if (curType== 3){
-            user_answers[currentQuestion] = answerField.getText();
-        }
-        else if (curType==4){
-            String s1 = answerField.getText(), s2 = answerField_2.getText();
-            if (return_index(s1,theme) != -1 || s1.equals("") == false) user_answers[currentQuestion] += return_index(s1,theme);
-            if (return_index(s2,theme) != -1 || s2.equals("") == false) user_answers[currentQuestion] += return_index(s2,theme);
-        }
-        else if (curType == 1 || curType == 2){
+    private void get_answer()
+    {
+        if (Type[currentQuestion] == 1 || Type[currentQuestion] == 2)
+        {
             String s = "";
-            for (int i = 1; i < 5; i++) {
-                if (answersCheckboxes[i-1].isSelected()) s += i;
+            for (int i = 0; i < 4; i++) {
+                if (answersCheckboxes[i].isSelected()) s += (i + 1);
             }
             user_answers[currentQuestion] = s;
         }
-        else if (curType == 5){
-            Connection con = new Connection();
-            ArrayList <String> var = con.getAns(theme,currentQuestion+1);
+        else if (Type[currentQuestion] == 3)
+        {
+            user_answers[currentQuestion] = answerField.getText();
+        }
+        else if (Type[currentQuestion] == 4)
+        {
+            String s1 = answerField.getText(), s2 = answerField_2.getText();
+            if (retutn_index(s1) != -1 || s1.equals("") == false) user_answers[currentQuestion] += retutn_index(s1);
+            if (retutn_index(s2) != -1 || s2.equals("") == false) user_answers[currentQuestion] += retutn_index(s2);
+        }
+        else if (Type[currentQuestion] == 5)
+        {
             String s = "";
-            for(int i = 0; i < var.size()/2; i++){
-                int index = return_index(comboBoxes[i].getSelectedItem(), theme);
+            for(int i = 0; i < columns[currentQuestion].length; i++)
+            {
+                int index = retutn_index(comboBoxes[i].getSelectedItem());
                 s += index;
             }
             user_answers[currentQuestion] = s;
         }
     }
-    private int return_index (Object s, int theme){
-        Connection con = new Connection();
-        ArrayList <String> var = con.getAns(theme,currentQuestion+1);
-        for(int i = 0; i < var.size(); i++){
-            if (s.equals(var.get(i))) return i;
+    private int retutn_index (Object s)
+    {
+        for(int i = 0; i < answers[currentQuestion].length; i++)
+        {
+            if (s.equals(answers[currentQuestion][i])) return i;
         }
-        return 0;
+        return -1;
     }
-    private String get_result(){
+    private String get_result(MainWindow.Topic topic){
         int score = 0;
         String result = "", total = "";
-        for(int i = 0; i < countQuestions; i++){
-            System.out.println(answers[i]+' ' +user_answers[i]);
-            if (answers[i].equals(user_answers[i])){
+        for(int i = 0; i < countQuestions; i++)
+        {
+            int flag = 0;
+            for(int j = 0; j < right_answers[i].length; j++)
+            {
+                if (right_answers[i][j].equals(user_answers[i]))
+                {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 1)
+            {
                 score++;
-                result += ((i + 1) + " : ПРАВИЛЬНО\n");
+                if (i < 9) result += ((i + 1) + "  : ПРАВИЛЬНО\n");
+                else result += ((i + 1) + " : ПРАВИЛЬНО\n");
             }
             else {
-                result += ((i + 1) + " : НЕПРАВИЛЬНО\n");
+                if (i < 9) result += ((i + 1) + "  : НЕПРАВИЛЬНО\n");
+                else result += ((i + 1) + " : НЕПРАВИЛЬНО\n");
             }
         }
+        Connection con = new Connection();
+        con.set_statistics(topic.ordinal(), score * 10);
         total = "Тест завершен.\n\nВаш результат: " + score + " из 10.\n";
         total += result;
         return total;
