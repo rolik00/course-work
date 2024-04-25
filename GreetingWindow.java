@@ -5,8 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class GreetingWindow {
     private JFrame frame;
-    private static Color lightBlue= new Color(67,21,113), Blue = new Color(233, 178, 127);
-    private static String NAME = "ЗДЕСЬ БУДЕТ НАЗВАНИЕ", SLOGAN = "ЗДЕСЬ БУДЕТ ЛОЗУНГ";
+    private static String NAME = "КЛАДОВАЯ АЛГОРИТМ", SLOGAN = "ОТКРЫВАЕМ ТАЙНЫ АЛГОРИТМОВ ВМЕСТЕ";
     private static Font font_Name = new Font("Courier New", Font.BOLD, 48), font_Slogan = new Font("Courier New", Font.PLAIN, 18);
     private JLabel name, slogan;
 
@@ -16,18 +15,20 @@ public class GreetingWindow {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-        frame.getContentPane().setBackground(lightBlue);
+        frame.getContentPane().setBackground(MainWindow.main_color);
+        frame.setUndecorated(true);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
         name = new JLabel(NAME);
         name.setFont(font_Name);
-        name.setForeground(Blue);
+        name.setForeground(MainWindow.title_color);
         name.setSize(700, 100);
         name.setLocation(500, 100);
         frame.add(name);
 
         slogan = new JLabel(SLOGAN);
         slogan.setFont(font_Slogan);
-        slogan.setForeground(Blue);
+        slogan.setForeground(MainWindow.title_color);
         slogan.setSize(400, 100);
         slogan.setLocation(680, 150);
         frame.add(slogan);
