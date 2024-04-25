@@ -9,25 +9,33 @@ import java.io.IOException;
 
 public class StatisticsWindow {
     private JFrame frame;
-    private static Color lightBlue= new Color(219,232,255);
+    private static String[] CategoryNames = {"Основы", "Сортировки", "Структуры данных",  "Графы", "Алгоритмические парадигмы", "Контрольный тест", ""};
+    private int[] CategoryScores = {0, 0, 0, 0, 0, 0, -1};
 
-    private static String[] CategoryNames = {"Основы", "Сортировки", "Графы", "Структуры данных", "Алгоритмические парадигмы", "Контрольный тест", ""};
-    private int[] CategoryScores = {75, 60, 90, 80, 70, 85, -1};
+    private void update_statistics()
+    {
+        Connection con = new Connection();
+        for(int i = 0; i < 6; i++)
+        {
+            CategoryScores[i] = con.get_statistics(i + 1);
+        }
+    }
     public JFrame create_statistic_window(JFrame other) {
+        update_statistics();
 
         frame = new JFrame();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setBackground(lightBlue);
-        frame.getContentPane().setBackground(new Color(219, 232, 255));
+        frame.getContentPane().setBackground(MainWindow.main_color);
+        frame.setUndecorated(true);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        insert_image("images//circle_image//basis.png", 30, 80);
-        insert_image("images//circle_image//sorts.png", 270, 470);
-        insert_image("images//circle_image//graphs.png", 515, 80);
-        insert_image("images//circle_image//data_structure.png", 760, 470);
-        insert_image("images//circle_image//algorithms.png", 1005, 80);
-        insert_image("images//circle_image//test.png", 1250, 470);
+        insert_image("D://java//firstpr//images//circle_image//basis.png", 30, 80);
+        insert_image("D://java//firstpr//images//circle_image//sorts.png", 270, 470);
+        insert_image("D://java//firstpr//images//circle_image//data_structure.png", 515, 80);
+        insert_image("D://java//firstpr//images//circle_image//graphs.png", 760, 470);
+        insert_image("D://java//firstpr//images//circle_image//algorithms.png", 1005, 80);
+        insert_image("D://java//firstpr//images//circle_image//test.png", 1250, 470);
         insert_labels();
 
         JButton ex = new JButton("Выход");
@@ -65,9 +73,11 @@ public class StatisticsWindow {
         {
             JLabel name = new JLabel(CategoryNames[i]);
             name.setFont(new Font("Courier New", Font.ITALIC, 18));
+            name.setForeground(MainWindow.title_color);
             JLabel score = new JLabel(Integer.toString(CategoryScores[i]) + "%");
             if (CategoryScores[i] == -1) score.setText("");
             score.setFont(new Font("Courier New", Font.ITALIC, 20));
+            score.setForeground(MainWindow.title_color);
             if (i % 2 == 0) y = 80;
             else y = 470;
             name.setBounds(35 + i * 245, y - 45, 300, 35);
