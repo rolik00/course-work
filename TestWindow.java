@@ -230,11 +230,10 @@ public class TestWindow  {
         ArrayList <String> var = con.getAns(theme,currentQuestion+1);
         int count = qstn.length() - qstn.replace(" ____", "").length();
         count = count / 5;
-        if (count == 2)
-        {
+        if (count == 2){
             if (parts.length == 3) question_3.setText(parts[2]);
             else question_3.setText("");
-            if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length() != 1){
+            if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length()!=1){
                 int index = user_answers[currentQuestion].charAt(1) - '0';
                 answerField_2.setText(var.get(index));
             }
@@ -317,6 +316,7 @@ public class TestWindow  {
     }
     private void matchQuestion(int theme)
     {
+        clear();
         task.append(task4);
         Connection con = new Connection();
         question.setText(con.getQuestion(theme,currentQuestion+1));

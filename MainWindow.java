@@ -140,7 +140,12 @@ public class MainWindow {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TheoryWindow thw = new TheoryWindow();
-                JFrame bss = thw.create_theory_window(topic, frame);
+                JFrame bss = null;
+                try {
+                    bss = thw.create_theory_window(topic, frame);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 frame.setVisible(false);
                 bss.setVisible(true);
             }
