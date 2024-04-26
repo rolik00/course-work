@@ -27,8 +27,9 @@ public class ResultWindow {
 
         result_text = new JTextArea(result);
         result_text.setFont(font);
-        result_text.setLocation(690, 200);
-        result_text.setSize(210, 300);
+        result_text.setLocation(500, 150);
+        result_text.setSize(510, 500);
+        result_text.setBackground(MainWindow.light_main_color);
         result_text.setEditable(false);
         frame.add(result_text);
 

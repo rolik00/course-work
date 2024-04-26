@@ -312,6 +312,7 @@ public class TestWindow  {
     private void matchQuestion()
     {
         clear();
+
         task.append(task4);
         question.setText(questions[currentQuestion]);
         question.setLocation(400, 300);
@@ -411,10 +412,10 @@ public class TestWindow  {
                     if (i < 9) result += ((i + 1) + "  : ПРАВИЛЬНО\n");
                     else result += ((i + 1) + " : ПРАВИЛЬНО\n");
                 }
-                else
-                {
+                else{
                     if (i < 9) result += ((i + 1) + "  : НЕПРАВИЛЬНО\n");
                     else result += ((i + 1) + " : НЕПРАВИЛЬНО\n");
+                    break;
                 }
 
             }

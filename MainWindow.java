@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +11,10 @@ import java.io.IOException;
 public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
-    public static Color main_color = new Color(67,21,113), title_color = new Color(233, 178, 127);
+    public static Color main_color = new Color(67,21,113), title_color = new Color(233, 178, 127),
+            light_title_color = new Color(230, 195, 163), light_main_color = new Color(138, 103,172);
     public enum Topic {Basis, Sorts, Data_structures, Graphs, Algorithmic_paradigms, Control_Test}
-
-    public JFrame create_main_window()
-    {
+    public JFrame create_main_window(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
@@ -77,11 +77,11 @@ public class MainWindow {
 
         JMenuBar menuBar = new JMenuBar();
 
-        JMenu name = new JMenu("Кладовая алгоритмов");
+        //JMenu name = new JMenu("Кладовая алгоритмов");
         //name.setVerticalTextPosition(SwingConstants.BOTTOM);
-        name.setHorizontalTextPosition(SwingConstants.CENTER);
-        name.setFont(new Font("Verdana", Font.PLAIN, 36));
-        menuBar.add(name);
+        //name.setHorizontalAlignment(SwingConstants.CENTER);
+        //name.setFont(new Font("Verdana", Font.PLAIN, 36));
+        //menuBar.add(name);
 
         JMenu menu = new JMenu("≡");
         menu.setFont(new Font("Verdana", Font.PLAIN, 36));
@@ -106,7 +106,12 @@ public class MainWindow {
         menuBar.setBackground(title_color);
         menuBar.add(menu);
         frame.setJMenuBar(menuBar);
-
+        JLabel label = new JLabel("Centered Text");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setLocation(0, 20);
+        label.setFont(new Font("Verdana", Font.PLAIN, 72));
+        //menuBar.add(Box.createHorizontalGlue());
+        frame.add(label);
         return frame;
     }
 

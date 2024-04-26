@@ -32,14 +32,19 @@ public class TheoryWindow {
         JEditorPane jep = new JEditorPane();
         jep.setContentType("text/html");
         jep.setText(html);
+        jep.setCaretPosition(0);
+        jep.setBackground(MainWindow.light_title_color);
         jep.setPreferredSize(new Dimension(400,50));
         frame.add(jep);
         frame.setSize(700, 800);
         frame.setVisible(true);
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight()-50;
         JScrollPane scroll = new JScrollPane(jep);
-        scroll.setSize(1300, 600);
-        scroll.setLocation(125, 75);
+        scroll.setSize((int)width, (int)height-100);
+        scroll.setLocation(0, 0);
         frame.getContentPane().add(scroll);
 
         JMenuBar menuBar = new JMenuBar();
@@ -65,7 +70,9 @@ public class TheoryWindow {
 
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
-        btntest.setLocation(625, 715);
+        btntest.setLocation(625, 755);
+        btntest.setBackground(MainWindow.light_title_color);
+        btntest.setForeground(MainWindow.main_color);
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
