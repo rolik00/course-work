@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class GreetingWindow {
     private JFrame frame;
-    private static String NAME = "КЛАДОВАЯ АЛГОРИТМ", SLOGAN = "ОТКРЫВАЕМ ТАЙНЫ АЛГОРИТМОВ ВМЕСТЕ";
+    private static String NAME = "КЛАДОВАЯ АЛГОРИТМОВ", SLOGAN = "ОТКРЫВАЕМ ТАЙНЫ АЛГОРИТМОВ ВМЕСТЕ";
     private static Font font_Name = new Font("Courier New", Font.BOLD, 48), font_Slogan = new Font("Courier New", Font.PLAIN, 18);
     private JLabel name, slogan;
 

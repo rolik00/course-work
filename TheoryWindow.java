@@ -2,16 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class TheoryWindow {
     private JFrame frame;
-    private JTextArea text;
-    private static Color lightBlue= new Color(67,21,113);
 
     public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) {
         frame = new JFrame(String.valueOf(topic));
@@ -21,13 +17,12 @@ public class TheoryWindow {
         frame.setUndecorated(true);
         frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        int theme=-1;
         String html = null;
-        if (topic == MainWindow.Topic.Basis) {html = "C:\\Users\\makov\\Downloads\\sample2.html"; theme=1;}
-        else if (topic == MainWindow.Topic.Sorts) {html = "C:\\Users\\makov\\Downloads\\sample2.html"; theme=2;}
-        else if (topic == MainWindow.Topic.Graphs) {html = "C:\\Users\\makov\\Downloads\\sample2.html"; theme=4;}
-        else if (topic == MainWindow.Topic.Data_structures) {html = "C:\\Users\\makov\\Downloads\\sample2.html"; theme=3;}
-        else if (topic == MainWindow.Topic.Algorithmic_paradigms) {html = "C:\\Users\\makov\\Downloads\\sample2.html"; theme=5;}
+        if (topic == MainWindow.Topic.Basis) html = "theories\\basis.html";
+        else if (topic == MainWindow.Topic.Sorts) html = "theories\\sorts.html";
+        else if (topic == MainWindow.Topic.Data_structures) html = "theories\\data structures.html";
+        else if (topic == MainWindow.Topic.Graphs) html = "theories\\graphs.html";
+        else if (topic == MainWindow.Topic.Algorithmic_paradigms) html = "theories\\algoritmic paradigms.html";
 
         try {
             html = Files.readString(Paths.get(html));
@@ -80,7 +75,6 @@ public class TheoryWindow {
             }
         });
         frame.add(btntest);
-
         return frame;
     }
 }

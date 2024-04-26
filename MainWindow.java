@@ -18,8 +18,8 @@ public class MainWindow {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight()-50;
-        btn_width = (int)(0.25*width);
-        btn_height = (int)(0.3*height);
+        btn_width = 380;//(int)(0.25*width);
+        btn_height = 337;//(int)(0.3*height);
         locx1=(int)(0.0625*width);
         locx2=(int)(locx1+btn_width+0.5*(width-2*locx1-3*btn_width));
         locx3=(int)(0.9375*width-btn_width);
@@ -52,17 +52,17 @@ public class MainWindow {
         // потом засунем в какую-нибудь функцию
         JButton btntst = new JButton("Контрольный тест");
         BufferedImage oImage = null;
-        File file = new File("images/тест.jpg");
+        File file = new File("images/тест.png");
         try {
             oImage = ImageIO.read(file);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Image scaledImage = oImage.getScaledInstance(btn_width, btn_height - 25, Image.SCALE_SMOOTH);
+        Image scaledImage = oImage.getScaledInstance(btn_width+15, btn_height, Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(scaledImage);
         btntst.setIcon(imageIcon);
-        btntst.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btntst.setHorizontalTextPosition(SwingConstants.CENTER);
+        //btntst.setVerticalTextPosition(SwingConstants.BOTTOM);
+        //btntst.setHorizontalTextPosition(SwingConstants.CENTER);
         btntst.setSize(btn_width, btn_height);
         btntst.setLocation(locx3, locy2);
         btntst.addActionListener(new ActionListener() {
@@ -76,8 +76,15 @@ public class MainWindow {
         frame.add(btntst);
 
         JMenuBar menuBar = new JMenuBar();
+
+        JMenu name = new JMenu("Кладовая алгоритмов");
+        //name.setVerticalTextPosition(SwingConstants.BOTTOM);
+        name.setHorizontalTextPosition(SwingConstants.CENTER);
+        name.setFont(new Font("Verdana", Font.PLAIN, 36));
+        menuBar.add(name);
+
         JMenu menu = new JMenu("≡");
-        menu.setFont(new Font("Verdana", Font.PLAIN, 16));
+        menu.setFont(new Font("Verdana", Font.PLAIN, 36));
         JMenuItem menustatistic = new JMenuItem("Посмотреть статистику");
         menustatistic.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -93,9 +100,10 @@ public class MainWindow {
                 System.exit(0);
             }
         });
-        menu.setBackground(main_color);
+        //menu.setBackground(main_color);
         menu.add(menustatistic);
         menu.add(menuexit);
+        menuBar.setBackground(title_color);
         menuBar.add(menu);
         frame.setJMenuBar(menuBar);
 
@@ -116,11 +124,11 @@ public class MainWindow {
             button_name = "Сортировки";
         }
         else if (topic == Topic.Data_structures) {
-            file = new File ("images/структурыданных.jpg");
+            file = new File ("images/структурыданных.png");
             button_name = "Структуры данных";
         }
         else if (topic == Topic.Graphs) {
-            file = new File ("images/графы.jpg");
+            file = new File ("images/графы.png");
             button_name = "Графы";
         }
         else if (topic == Topic.Algorithmic_paradigms) {
@@ -143,20 +151,16 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
                 TheoryWindow thw = new TheoryWindow();
                 JFrame bss = null;
-                try {
-                    bss = thw.create_theory_window(topic, frame);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                bss = thw.create_theory_window(topic, frame);
                 frame.setVisible(false);
                 bss.setVisible(true);
             }
         });
-        Image scaledImage = oImage.getScaledInstance(btn_width, btn_height - 25, Image.SCALE_SMOOTH);
+        Image scaledImage = oImage.getScaledInstance(btn_width+15, btn_height, Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(scaledImage);
         button.setIcon(imageIcon);
-        button.setVerticalTextPosition(SwingConstants.BOTTOM);
-        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        //button.setVerticalTextPosition(SwingConstants.BOTTOM);
+        //button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
     }
 }
