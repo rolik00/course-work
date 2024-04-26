@@ -63,15 +63,15 @@ public class TestWindow  {
         question_2 = new JLabel();
         question.setFont(font);
         question.setForeground(MainWindow.title_color);
-        question_2.setLocation(950, 300);
-        question_2.setSize(300, 40);
+        question_2.setLocation(920, 300);
+        question_2.setSize(400, 40);
         question_2.setFont(font);
         question_2.setForeground(MainWindow.title_color);
         frame.add(question_2);
         frame.add(question);
         question_3 = new JLabel();
-        question_3.setLocation(600, 350);
-        question_3.setSize(300, 40);
+        question_3.setLocation(700, 350);
+        question_3.setSize(600, 40);
         question_3.setFont(font);
         question_3.setForeground(MainWindow.title_color);
         frame.add(question_3);
@@ -84,7 +84,6 @@ public class TestWindow  {
         frame.add(answerField_2);
 
         options = new JList<>();
-        options.setSize(100, 100);
         options.setFont(font);
         frame.add(options);
 
@@ -122,7 +121,7 @@ public class TestWindow  {
         prevButton.setLocation(25, 700);
         resButton = new JButton("Завершить тест");
         resButton.setSize(200, 40);
-        resButton.setLocation(600, 700);
+        resButton.setLocation(900, 700);
         prevButton.setVisible(false);
         resButton.setVisible(false);
         frame.add(nextButton);
@@ -200,8 +199,8 @@ public class TestWindow  {
         task.setLocation(600, 200);
         task.setSize(700, 80);
         question.setText(questions[currentQuestion]);
-        question.setLocation(600, 300);
-        question.setSize(500, 40);
+        question.setLocation(250, 300);
+        question.setSize(1100, 40);
         answerField.setText(user_answers[currentQuestion]);
         answerField.setLocation(600, 500);
         answerField.setSize(300, 40);
@@ -226,11 +225,11 @@ public class TestWindow  {
             else question_3.setText("");
             if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length() != 1)
             {
-                int index = user_answers[currentQuestion].charAt(1) - '0';
+                int index = user_answers[currentQuestion].charAt(1) - 1 - '0';
                 answerField_2.setText(answers[currentQuestion][index]);
             }
             else answerField_2.setText("");
-            answerField_2.setLocation(1250, 300);
+            answerField_2.setLocation(600, 350);
             answerField_2.setSize(100, 40);
             answerField_2.setEditable(false);
             answerField_2.setVisible(true);
@@ -247,15 +246,15 @@ public class TestWindow  {
             }));
         }
         question.setText(parts[0]);
-        question.setLocation(500, 300);
-        question.setSize(400, 40);
         if (user_answers[currentQuestion] != "")
         {
-            int index = user_answers[currentQuestion].charAt(0) - '0';
+            int index = user_answers[currentQuestion].charAt(0) - 1 - '0';
             answerField.setText(answers[currentQuestion][index]);
         }
         else answerField.setText("");
-        answerField.setLocation(850, 300);
+        question.setLocation(10, 300);
+        question.setSize(800, 40);
+        answerField.setLocation(815, 300);
         answerField.setSize(100, 40);
         answerField.setEditable(false);
         answerField.setVisible(true);
@@ -273,7 +272,7 @@ public class TestWindow  {
         if (parts.length >= 2) question_2.setText(parts[1]);
         else question_2.setText("");
         DefaultListModel<String> wordListModel = new DefaultListModel<>();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < answers[currentQuestion].length; i++)
         {
             wordListModel.addElement(answers[currentQuestion][i]);
         }
@@ -281,23 +280,24 @@ public class TestWindow  {
         options.setDragEnabled(true);
         options.setBackground(Color.white);
         options.setLocation(500, 600);
+        options.setSize(300, 25 * answers[currentQuestion].length);
         options.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
     }
     private void testQuestion()
     {
         clear();
         task.append(task3);
-        task.setLocation(400, 200);
-        task.setSize(800, 80);
+        task.setLocation(250, 200);
+        task.setSize(1100, 80);
         question.setText(questions[currentQuestion]);
-        question.setLocation(600, 300);
-        question.setSize(500, 40);
+        question.setLocation(400, 300);
+        question.setSize(800, 40);
         for (int i = 0; i < 4; i++) {
             answersCheckboxes[i].setText(answers[currentQuestion][i]);
             answersCheckboxes[i].setVisible(true);
             answersCheckboxes[i].setSelected(false);
             answersCheckboxes[i].setBackground(MainWindow.main_color);
-            answersCheckboxes[i].setSize(300, 40);
+            answersCheckboxes[i].setSize(500, 40);
             answersCheckboxes[i].setLocation(650, 300 + 50 * (i + 1));
         }
         if (user_answers[currentQuestion] != "")
@@ -315,7 +315,7 @@ public class TestWindow  {
         task.append(task4);
         question.setText(questions[currentQuestion]);
         question.setLocation(400, 300);
-        question.setSize(700, 40);
+        question.setSize(800, 40);
         for (int i = 0; i < columns[currentQuestion].length; i++) {
             label[i].setText(columns[currentQuestion][i]);
             comboBoxes[i].setVisible(true);
@@ -378,8 +378,8 @@ public class TestWindow  {
         else if (Type[currentQuestion] == 4)
         {
             String s1 = answerField.getText(), s2 = answerField_2.getText();
-            if (retutn_index(s1) != -1 || s1.equals("") == false) user_answers[currentQuestion] += retutn_index(s1);
-            if (retutn_index(s2) != -1 || s2.equals("") == false) user_answers[currentQuestion] += retutn_index(s2);
+            if (retutn_index(s1) != -1 || s1.equals("") == false) user_answers[currentQuestion] += retutn_index(s1) + 1;
+            if (retutn_index(s2) != -1 || s2.equals("") == false) user_answers[currentQuestion] += retutn_index(s2) + 1;
         }
         else if (Type[currentQuestion] == 5)
         {
@@ -405,24 +405,18 @@ public class TestWindow  {
         String result = "", total = "";
         for(int i = 0; i < countQuestions; i++)
         {
-            int flag = 0;
-            for(int j = 0; j < right_answers[i].length; j++)
-            {
-                if (right_answers[i][j].equals(user_answers[i]))
-                {
-                    flag = 1;
-                    break;
+            for (int j = 0; j < right_answers[i].length; j++) {
+                if (right_answers[i][j].equals(user_answers[i])) {
+                    score++;
+                    if (i < 9) result += ((i + 1) + "  : ПРАВИЛЬНО\n");
+                    else result += ((i + 1) + " : ПРАВИЛЬНО\n");
                 }
-            }
-            if (flag == 1)
-            {
-                score++;
-                if (i < 9) result += ((i + 1) + "  : ПРАВИЛЬНО\n");
-                else result += ((i + 1) + " : ПРАВИЛЬНО\n");
-            }
-            else {
-                if (i < 9) result += ((i + 1) + "  : НЕПРАВИЛЬНО\n");
-                else result += ((i + 1) + " : НЕПРАВИЛЬНО\n");
+                else
+                {
+                    if (i < 9) result += ((i + 1) + "  : НЕПРАВИЛЬНО\n");
+                    else result += ((i + 1) + " : НЕПРАВИЛЬНО\n");
+                }
+
             }
         }
         Connection con = new Connection();
