@@ -13,11 +13,13 @@ public class TheoryWindow {
     private JTextArea text;
     private static Color lightBlue= new Color(67,21,113);
 
-    public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) throws IOException {
-        JFrame frame = new JFrame(String.valueOf("topic"));
+    public JFrame create_theory_window(MainWindow.Topic topic, JFrame other) {
+        frame = new JFrame(String.valueOf(topic));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setLayout(null);
-        frame.getContentPane().setBackground(lightBlue);
+        frame.getContentPane().setBackground(MainWindow.main_color);
+        frame.setUndecorated(true);
+        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
         int theme=-1;
         String html = null;
@@ -69,12 +71,10 @@ public class TheoryWindow {
         JButton btntest = new JButton("Пройти тест");
         btntest.setSize(300, 40);
         btntest.setLocation(625, 715);
-
-        int finalTheme = theme;
         btntest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TestWindow tw = new TestWindow();
-                JFrame test = tw.create_test_window(frame, finalTheme);
+                JFrame test = tw.create_test_window(frame, topic);
                 frame.setVisible(false);
                 test.setVisible(true);
             }
