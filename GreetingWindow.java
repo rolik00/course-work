@@ -5,10 +5,10 @@ import java.awt.event.MouseEvent;
 
 public class GreetingWindow {
     private JFrame frame;
-    private static String NAME = "КЛАДОВАЯ АЛГОРИТМОВ", SLOGAN = "ОТКРЫВАЕМ ТАЙНЫ АЛГОРИТМОВ ВМЕСТЕ";
-    private static Font font_Name = new Font("Courier New", Font.BOLD, 48), font_Slogan = new Font("Courier New", Font.PLAIN, 18);
+    private static String NAME = "Кладовая алгоритмов", SLOGAN = "Открываем ТАЙНЫ АЛГОРИТМОВ ВМЕСТЕ";
+    private static Font font_Name = new Font("Century Schoolbook", Font.BOLD, 48), font_Slogan = new Font("Century Schoolbook", Font.PLAIN, 18);
     private JLabel name, slogan;
-
+    //"Century Schoolbook" "Andale Mono" DejaVu Sans Mono
     public JFrame create_greeting_window()
     {
         frame = new JFrame(NAME);

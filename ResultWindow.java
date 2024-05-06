@@ -8,17 +8,17 @@ public class ResultWindow {
     private JFrame frame;
     private JLabel title;
     private JTextArea result_text;
-    private static Font font = new Font("Verdana", Font.PLAIN + Font.BOLD, 16);
+    private static Font font = new Font("Century Schoolbook", Font.PLAIN + Font.BOLD, 16);
     public JFrame create_result_window(JFrame other, String result)
     {
-        frame = new JFrame("TECT");
+        frame = new JFrame("Tест");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().setLayout(null);
         frame.getContentPane().setBackground(MainWindow.main_color);
         frame.setUndecorated(true);
         frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        title = new JLabel("РЕЗУЛЬТАТЫ");
+        title = new JLabel("Результаты");
         title.setForeground(MainWindow.title_color);
         title.setLocation(720, 50);
         title.setSize(200, 50);

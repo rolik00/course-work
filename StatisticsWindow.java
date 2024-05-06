@@ -72,11 +72,11 @@ public class StatisticsWindow {
         for(int i = 0; i < 7; i++)
         {
             JLabel name = new JLabel(CategoryNames[i]);
-            name.setFont(new Font("Courier New", Font.ITALIC, 18));
+            name.setFont(new Font("Century Schoolbook", Font.ITALIC, 18));
             name.setForeground(MainWindow.title_color);
             JLabel score = new JLabel(Integer.toString(CategoryScores[i]) + "%");
             if (CategoryScores[i] == -1) score.setText("");
-            score.setFont(new Font("Courier New", Font.ITALIC, 20));
+            score.setFont(new Font("Century Schoolbook", Font.ITALIC, 20));
             score.setForeground(MainWindow.title_color);
             if (i % 2 == 0) y = 80;
             else y = 470;

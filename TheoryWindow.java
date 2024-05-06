@@ -49,7 +49,7 @@ public class TheoryWindow {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("≡");
-        menu.setFont(new Font("Verdana", Font.PLAIN, 16));
+        menu.setFont(new Font("Century Schoolbook", Font.PLAIN, 16));
         JMenuItem menuback = new JMenuItem("Назад на главное окно");
         JMenuItem menuexit = new JMenuItem("Выход из программы");
         menuback.addActionListener(new ActionListener() {

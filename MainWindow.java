@@ -14,6 +14,16 @@ public class MainWindow {
     public static Color main_color = new Color(67,21,113), title_color = new Color(233, 178, 127),
             light_title_color = new Color(230, 195, 163), light_main_color = new Color(138, 103,172);
     public enum Topic {Basis, Sorts, Data_structures, Graphs, Algorithmic_paradigms, Control_Test}
+    private int[] CategoryScores = {0, 0, 0, 0, 0, 0, -1};
+
+    private void update_statistics()
+    {
+        Connection con = new Connection();
+        for(int i = 0; i < 6; i++)
+        {
+            CategoryScores[i] = con.get_statistics(i + 1);
+        }
+    }
     public JFrame create_main_window(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -67,10 +77,15 @@ public class MainWindow {
         btntst.setLocation(locx3, locy2);
         btntst.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                TestWindow tw = new TestWindow();
-                JFrame tst = tw.create_test_window(frame, Topic.Control_Test);
-                frame.setVisible(false);
-                tst.setVisible(true);
+                update_statistics();
+                if (CategoryScores[0]>75 && CategoryScores[1]>75 && CategoryScores[2]>75 && CategoryScores[3]>75 && CategoryScores[4]>75){
+                    TestWindow tw = new TestWindow();
+                    JFrame tst = tw.create_test_window(frame, Topic.Control_Test);
+                    frame.setVisible(false);
+                    tst.setVisible(true);}
+                else{
+                    JOptionPane.showMessageDialog(null, "Наберите 75% в каждой категории, чтобы разблокировать контрольный тест.");
+                }
             }
         });
         frame.add(btntst);
@@ -84,7 +99,7 @@ public class MainWindow {
         //menuBar.add(name);
 
         JMenu menu = new JMenu("≡");
-        menu.setFont(new Font("Verdana", Font.PLAIN, 36));
+        menu.setFont(new Font("Century Schoolbook", Font.PLAIN, 36));
         JMenuItem menustatistic = new JMenuItem("Посмотреть статистику");
         menustatistic.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -109,7 +124,7 @@ public class MainWindow {
         JLabel label = new JLabel("Centered Text");
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setLocation(0, 20);
-        label.setFont(new Font("Verdana", Font.PLAIN, 72));
+        label.setFont(new Font("Century Schoolbook", Font.PLAIN, 72));
         //menuBar.add(Box.createHorizontalGlue());
         frame.add(label);
         return frame;
