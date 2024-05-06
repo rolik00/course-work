@@ -32,13 +32,14 @@ public class TestWindow  {
     private RoundedJTextArea task;
     private JTextArea wordList;
     private JList<String> options;
-    private JCheckBox[] answersCheckboxes = new JCheckBox[4];
+    private RoundJCheckBox[] answersCheckboxes = new RoundJCheckBox[4];
     private JComboBox<String>[] comboBoxes = new JComboBox[5];
     private JTextArea[] label = new JTextArea[5];
     private JProgressBar progressBar;
     private JFrame frame;
-    private static Font font = new Font("Century Schoolbook", Font.PLAIN, 14);
+    private static Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 24), super_font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
     private double width,height;
+    private int score;
 
     public JFrame create_test_window(JFrame other, MainWindow.Topic topic) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -62,24 +63,26 @@ public class TestWindow  {
 
         question = new RoundedJTextArea(MainWindow.light_title_color);
         question.setBackground(MainWindow.light_title_color);
+        question.setLineWrap(true);
+        question.setWrapStyleWord(true);
         question_2 = new JLabel();
         question.setFont(font);
         question_2.setLocation(920, 300);
         question_2.setSize(400, 40);
         question_2.setFont(font);
-        question_2.setForeground(MainWindow.title_color);
         frame.add(question_2);
         frame.add(question);
         question_3 = new JLabel();
         question_3.setLocation(700, 350);
         question_3.setSize(600, 40);
         question_3.setFont(font);
-        question_3.setForeground(MainWindow.title_color);
         frame.add(question_3);
 
         answerField = new JTextField(1);
+        answerField.setBackground(MainWindow.light_title_color);
         frame.add(answerField);
         answerField_2 = new JTextField(1);
+        answerField.setBackground(MainWindow.light_title_color);
         frame.add(answerField_2);
 
         options = new JList<>();
@@ -96,23 +99,26 @@ public class TestWindow  {
         frame.add(task);
 
         for (int i = 0; i < 5; i++) {
-            label[i] = new JTextArea("");
+            label[i] = new RoundedJTextArea(MainWindow.light_title_color);
+            label[i].setText("");
+            label[i].setFont(super_font);
             label[i].setVisible(false);
-            label[i].setSize(300, 40);
-            label[i].setLocation(400, 450 + 50 * (i + 1));
-            label[i].setBackground(MainWindow.title_color);
+            label[i].setSize(400, 40);
+            label[i].setLocation((int)(width-1375)/2, 450 + 50 * (i + 1));
+            label[i].setBackground(MainWindow.light_title_color);
             frame.add(label[i]);
             comboBoxes[i] = new JComboBox<>();
             comboBoxes[i].setVisible(false);
-            comboBoxes[i].setSize((int)(width-750-(width-1375)/2), 40);
-            comboBoxes[i].setLocation(750, 450 + 50 * (i + 1));
+            comboBoxes[i].setSize((int)(width-500-(width-1375)/2), 40);
+            comboBoxes[i].setLocation(500, 450 + 50 * (i + 1));
             comboBoxes[i].setBackground(MainWindow.light_title_color);
             frame.add(comboBoxes[i]);
         }
 
         for (int i = 0; i < 4; i++)
         {
-            answersCheckboxes[i] = new JCheckBox("");
+            answersCheckboxes[i] = new RoundJCheckBox("");
+            answersCheckboxes[i].setFont(super_font);
             frame.add(answersCheckboxes[i]);
         }
 
@@ -121,18 +127,25 @@ public class TestWindow  {
         else if (Type[currentQuestion] == 4) skipwordQuestion();
         else if (Type[currentQuestion] == 5) matchQuestion();
 
+
+        Font fontslay = new Font(Font.SANS_SERIF, Font.ITALIC | Font.BOLD, 24);
         nextButton = new RoundButton("Вперед",MainWindow.light_title_color);
         prevButton = new RoundButton("Назад",MainWindow.light_title_color);
-        //nextButton.setBackground(MainWindow.light_title_color);
-        nextButton.setSize(312,72);
+        nextButton.setSize(312,70);
         nextButton.setLocation((int)(width-(width-1375)/2-312),(int)height-70);
         prevButton.setBackground(MainWindow.light_title_color);
-        prevButton.setSize(312,72);
+        prevButton.setSize(312,70);
         prevButton.setLocation((int)(width-1375)/2,(int)height-70);
         resButton = new RoundButton("Завершить тест",MainWindow.light_title_color);
         resButton.setBackground(MainWindow.light_title_color);
-        resButton.setSize(312,72);
+        resButton.setSize(312,70);
         resButton.setLocation((int)(width-(width-1375)/2-312),(int)height-70);
+        resButton.setFont(fontslay);
+        nextButton.setFont(fontslay);
+        prevButton.setFont(fontslay);
+        resButton.setForeground(MainWindow.main_color);
+        nextButton.setForeground(MainWindow.main_color);
+        prevButton.setForeground(MainWindow.main_color);
         prevButton.setVisible(false);
         resButton.setVisible(false);
         frame.add(nextButton);
@@ -157,7 +170,7 @@ public class TestWindow  {
                                 get_answer();
                                 String result = get_result(topic);
                                 ResultWindow rw = new ResultWindow();
-                                JFrame res = rw.create_result_window(other, result);
+                                JFrame res = rw.create_result_window(other, result, score);
                                 res.setVisible(true);
                                 frame.setVisible(false);
                             }
@@ -214,6 +227,7 @@ public class TestWindow  {
         question.setLocation((int)(width-1375)/2,178);
         question.setSize(1375, 300);
         answerField.setText(user_answers[currentQuestion]);
+        answerField.setFont(font);
         answerField.setLocation((int)(width-1375)/2,518);
         answerField.setSize(1375, 114);
         answerField.setEditable(true);
@@ -305,9 +319,7 @@ public class TestWindow  {
             answersCheckboxes[i].setVisible(true);
             answersCheckboxes[i].setSelected(false);
             answersCheckboxes[i].setBackground(MainWindow.light_title_color);
-            //answersCheckboxes[i].setBackground(MainWindow.main_color);
             answersCheckboxes[i].setSize(650, 90);
-            //answersCheckboxes[i].setHorizontalTextPosition(SwingConstants.CENTER);
         }
         answersCheckboxes[0].setLocation((int)(width-1375)/2, 500);
         answersCheckboxes[1].setLocation((int)(width/2+(int)(width-1375)/2-50), 500);
@@ -410,27 +422,27 @@ public class TestWindow  {
         return -1;
     }
     private String get_result(MainWindow.Topic topic){
-        int score = 0;
+        score = 0;
         String result = "", total = "";
         for(int i = 0; i < countQuestions; i++){
             for (int j = 0; j < right_answers[i].length; j++) {
                 if (right_answers[i][j].equals(user_answers[i])) {
                     score++;
-                    if (i < 9) result += ((i + 1) + "  : ПРАВИЛЬНО\n");
-                    else result += ((i + 1) + " : ПРАВИЛЬНО\n");
+                    if (i < 9) result += "        "+ ((i + 1) + "  : верно\n");
+                    else result += "        "+((i + 1) + " : верно\n");
                 }
                 else{
-                    if (i < 9) result += ((i + 1) + "  : НЕПРАВИЛЬНО\n");
-                    else result += ((i + 1) + " : НЕПРАВИЛЬНО\n");
+                    if (i < 9) result += "        "+((i + 1) + "  : неверно\n");
+                    else result += "        "+((i + 1) + " : неверно\n");
                     break;
                 }
             }
         }
         Connection con = new Connection();
         con.set_statistics(topic.ordinal(), score * 10);
-        total = "Тест завершен.\n\nВаш результат: " + score + " из 10.\n";
+        total = "Ваш результат: " + score + " из 10.\n";
         total += result;
-        return total;
+        return result;
     }
     public class RoundBorder implements Border {
         private int radius;
@@ -462,7 +474,7 @@ public class TestWindow  {
         }
 
     }
-    public class RoundedJTextArea extends JTextArea {
+    public static class RoundedJTextArea extends JTextArea {
         private Color backgroundColor;
 
         public RoundedJTextArea(Color col) {
@@ -490,7 +502,7 @@ public class TestWindow  {
         }
     }
 
-    public class RoundButton extends JButton {
+    public static class RoundButton extends JButton {
         private Color backgroundColor;
         public RoundButton(String text, Color col) {
             super(text);
@@ -507,7 +519,7 @@ public class TestWindow  {
             }
 
             Graphics2D g2 = (Graphics2D) g;
-            g2.fill(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 30, 30));
+            g2.fill(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 60, 60));
 
             super.paintComponent(g);
         }
@@ -516,7 +528,32 @@ public class TestWindow  {
         protected void paintBorder(Graphics g) {
             g.setColor(backgroundColor);
             Graphics2D g2 = (Graphics2D) g;
-            g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 30, 30));
+            g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 60, 60));
+        }
+    }
+
+
+    class RoundJCheckBox extends JCheckBox {
+        public RoundJCheckBox(String text) {
+            super(text);
+            setContentAreaFilled(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (getModel().isSelected()) {
+                g.setColor(getBackground());
+            } else {
+                g.setColor(MainWindow.light_title_color);
+            }
+            g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+            super.paintComponent(g);
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
+            g.setColor(getForeground());
+            g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
         }
     }
 }

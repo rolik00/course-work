@@ -9,8 +9,7 @@ public class GreetingWindow {
     private static Font font_Name = new Font("Century Schoolbook", Font.BOLD, 48), font_Slogan = new Font("Century Schoolbook", Font.PLAIN, 18);
     private JLabel name, slogan;
     //"Century Schoolbook" "Andale Mono" DejaVu Sans Mono
-    public JFrame create_greeting_window()
-    {
+    public JFrame create_greeting_window(){
         frame = new JFrame(NAME);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,7 +18,13 @@ public class GreetingWindow {
         frame.setUndecorated(true);
         frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        name = new JLabel(NAME);
+        ImageIcon icon = new ImageIcon("images/greet.png");
+        JLabel label = new JLabel(icon);
+        label.setLocation(0,0);
+        label.setSize(1440,1024);
+        frame.add(label);
+
+        /*name = new JLabel(NAME);
         name.setFont(font_Name);
         name.setForeground(MainWindow.title_color);
         name.setSize(700, 100);
@@ -31,7 +36,7 @@ public class GreetingWindow {
         slogan.setForeground(MainWindow.title_color);
         slogan.setSize(400, 100);
         slogan.setLocation(680, 150);
-        frame.add(slogan);
+        frame.add(slogan);*/
 
         frame.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {

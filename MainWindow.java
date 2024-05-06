@@ -11,7 +11,7 @@ import java.io.IOException;
 public class MainWindow {
     private JFrame frame;
     private int btn_width, btn_height, locx1, locx2, locx3, locy1, locy2;
-    public static Color main_color = new Color(67,21,113), title_color = new Color(233, 178, 127),
+    public static Color main_color = new Color(74,41,107), title_color = new Color(233, 178, 127),
             light_title_color = new Color(230, 195, 163), light_main_color = new Color(138, 103,172);
     public enum Topic {Basis, Sorts, Data_structures, Graphs, Algorithmic_paradigms, Control_Test}
     private int[] CategoryScores = {0, 0, 0, 0, 0, 0, -1};
@@ -33,7 +33,7 @@ public class MainWindow {
         locx1=(int)(0.0625*width);
         locx2=(int)(locx1+btn_width+0.5*(width-2*locx1-3*btn_width));
         locx3=(int)(0.9375*width-btn_width);
-        locy1=(int)(0.1*height);
+        locy1=(int)(0.1*height)+30;
         locy2=(int)(btn_height+locy1+0.5*(height-locy1-2*btn_height));
 
         frame = new JFrame("Меню");
@@ -44,23 +44,22 @@ public class MainWindow {
         frame.setUndecorated(true);
         frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        JButton btnbss = create_main_button(Topic.Basis);
+        TestWindow.RoundButton btnbss = create_main_button(Topic.Basis);
         frame.add(btnbss);
 
-        JButton btnstr = create_main_button(Topic.Sorts);
+        TestWindow.RoundButton btnstr = create_main_button(Topic.Sorts);
         frame.add(btnstr);
 
-        JButton btndts = create_main_button(Topic.Data_structures);
+        TestWindow.RoundButton btndts = create_main_button(Topic.Data_structures);
         frame.add(btndts);
 
-        JButton btngrp = create_main_button(Topic.Graphs);
+        TestWindow.RoundButton btngrp = create_main_button(Topic.Graphs);
         frame.add(btngrp);
 
-        JButton btnalg = create_main_button(Topic.Algorithmic_paradigms);
+        TestWindow.RoundButton btnalg = create_main_button(Topic.Algorithmic_paradigms);
         frame.add(btnalg);
 
-        // потом засунем в какую-нибудь функцию
-        JButton btntst = new JButton("Контрольный тест");
+        TestWindow.RoundButton btntst = new TestWindow.RoundButton("Контрольный тест",title_color);
         BufferedImage oImage = null;
         File file = new File("images/тест.png");
         try {
@@ -90,18 +89,46 @@ public class MainWindow {
         });
         frame.add(btntst);
 
-        JMenuBar menuBar = new JMenuBar();
+        JTextArea label = new JTextArea("                                   Кладовая алгоритмов");
+        label.setEditable(false);
+        label.setBackground(light_title_color);
+        label.setLocation(0, 0);
+        label.setSize((int)width,70);
+        label.setForeground(main_color);
+        label.setFont(new Font(Font.SANS_SERIF, Font.BOLD | Font.ITALIC, 48));
+        JPanel panel = new JPanel();
+        frame.add(panel);
 
-        //JMenu name = new JMenu("Кладовая алгоритмов");
-        //name.setVerticalTextPosition(SwingConstants.BOTTOM);
-        //name.setHorizontalAlignment(SwingConstants.CENTER);
-        //name.setFont(new Font("Verdana", Font.PLAIN, 36));
-        //menuBar.add(name);
+        TestWindow.RoundButton stat = new TestWindow.RoundButton("≡",main_color);
+        TestWindow.RoundButton exit = new TestWindow.RoundButton("exit",main_color);
+        stat.setLocation(10,10);
+        stat.setSize(55,55);
+        exit.setLocation((int)width-60,10);
+        exit.setSize(55,55);
 
-        JMenu menu = new JMenu("≡");
-        menu.setFont(new Font("Century Schoolbook", Font.PLAIN, 36));
-        JMenuItem menustatistic = new JMenuItem("Посмотреть статистику");
-        menustatistic.addActionListener(new ActionListener() {
+        File fileexit = new File("images/exit.png");
+        BufferedImage oimageexit = null;
+        try {
+            oimageexit = ImageIO.read(fileexit);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Image exitimg = oimageexit.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon exiticn = new ImageIcon(exitimg);
+        exit.setIcon(exiticn);
+
+        File filestat = new File("images/stat.png");
+        BufferedImage oimagestat = null;
+        try {
+            oimagestat = ImageIO.read(filestat);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Image statimg = oimagestat.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon staticn = new ImageIcon(statimg);
+        stat.setIcon(staticn);
+
+        stat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 StatisticsWindow sw = new StatisticsWindow();
                 frame.setVisible(false);
@@ -109,29 +136,20 @@ public class MainWindow {
                 statistic.setVisible(true);
             }
         });
-        JMenuItem menuexit = new JMenuItem("Выход");
-        menuexit.addActionListener(new ActionListener() {
+        exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
         //menu.setBackground(main_color);
-        menu.add(menustatistic);
-        menu.add(menuexit);
-        menuBar.setBackground(title_color);
-        menuBar.add(menu);
-        frame.setJMenuBar(menuBar);
-        JLabel label = new JLabel("Centered Text");
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setLocation(0, 20);
-        label.setFont(new Font("Century Schoolbook", Font.PLAIN, 72));
-        //menuBar.add(Box.createHorizontalGlue());
-        frame.add(label);
+        //menuBar.setBackground(title_color);
+        frame.getContentPane().add(stat);
+        frame.getContentPane().add(exit);
+        frame.getContentPane().add(label);
         return frame;
     }
 
-    private JButton create_main_button(Topic topic)
-    {
+    private TestWindow.RoundButton create_main_button(Topic topic){
         File file = null;
         String button_name = "";
         BufferedImage oImage = null;
@@ -160,7 +178,7 @@ public class MainWindow {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        JButton button = new JButton(button_name);
+        TestWindow.RoundButton button = new TestWindow.RoundButton(button_name,title_color);
         button.setSize(btn_width, btn_height);
         if (topic == Topic.Basis) button.setLocation(locx1, locy1);
         else if (topic == Topic.Sorts) button.setLocation(locx2, locy1);
@@ -176,11 +194,9 @@ public class MainWindow {
                 bss.setVisible(true);
             }
         });
-        Image scaledImage = oImage.getScaledInstance(btn_width+15, btn_height, Image.SCALE_SMOOTH);
+        Image scaledImage = oImage.getScaledInstance(btn_width+20, btn_height, Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(scaledImage);
         button.setIcon(imageIcon);
-        //button.setVerticalTextPosition(SwingConstants.BOTTOM);
-        //button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
     }
 }
