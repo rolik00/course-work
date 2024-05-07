@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,13 @@ public class TheoryWindow {
         scroll.setForeground(MainWindow.main_color);
         scroll.setSize((int)width, (int)height-100);
         scroll.setLocation(0, 0);
+        scroll.getVerticalScrollBar().setBackground(MainWindow.light_main_color);
+        scroll.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = MainWindow.main_color;
+            }
+        });
         frame.getContentPane().add(scroll);
 
         Font fontslay = new Font(Font.SANS_SERIF, Font.ITALIC | Font.BOLD, 24);

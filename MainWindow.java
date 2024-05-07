@@ -89,6 +89,19 @@ public class MainWindow {
         });
         frame.add(btntst);
 
+        JPanel panel = new JPanel();
+        frame.add(panel);
+
+        BufferedImage myPicture = null;
+        try {
+            myPicture = ImageIO.read(new File("images/fon.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Image newImage = myPicture.getScaledInstance(1440, 1024, Image.SCALE_DEFAULT);
+        JLabel picLabel = new JLabel(new ImageIcon(newImage));
+        picLabel.setBounds(0, 0, 1440, 1024);
+
         JTextArea label = new JTextArea("                                   Кладовая алгоритмов");
         label.setEditable(false);
         label.setBackground(light_title_color);
@@ -96,8 +109,6 @@ public class MainWindow {
         label.setSize((int)width,70);
         label.setForeground(main_color);
         label.setFont(new Font(Font.SANS_SERIF, Font.BOLD | Font.ITALIC, 48));
-        JPanel panel = new JPanel();
-        frame.add(panel);
 
         TestWindow.RoundButton stat = new TestWindow.RoundButton("≡",main_color);
         TestWindow.RoundButton exit = new TestWindow.RoundButton("exit",main_color);
@@ -146,6 +157,7 @@ public class MainWindow {
         frame.getContentPane().add(stat);
         frame.getContentPane().add(exit);
         frame.getContentPane().add(label);
+        frame.getContentPane().add(picLabel);
         return frame;
     }
 
