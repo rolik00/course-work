@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Caret;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -54,10 +55,9 @@ public class TestWindow  {
         frame.setUndecorated(true);
         frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
-        wordList = new JTextArea("");
-        wordList.setForeground(MainWindow.title_color);
+        wordList = new RoundedJTextArea(MainWindow.title_color);
+        wordList.setText("");
         wordList.setEditable(false);
-        wordList.setBackground(MainWindow.main_color);
         wordList.setFont(font);
         frame.add(wordList);
 
@@ -65,13 +65,14 @@ public class TestWindow  {
         question.setBackground(MainWindow.light_title_color);
         question.setLineWrap(true);
         question.setWrapStyleWord(true);
+        question.setEditable(false);
         question_2 = new JLabel();
         question.setFont(font);
         question_2.setLocation(920, 300);
         question_2.setSize(400, 40);
         question_2.setFont(font);
         frame.add(question_2);
-        frame.add(question);
+        frame.getContentPane().add(question);
         question_3 = new JLabel();
         question_3.setLocation(700, 350);
         question_3.setSize(600, 40);
@@ -79,14 +80,14 @@ public class TestWindow  {
         frame.add(question_3);
 
         answerField = new JTextField(1);
-        answerField.setBackground(MainWindow.light_title_color);
+        answerField.setBackground(MainWindow.title_color);
         frame.add(answerField);
         answerField_2 = new JTextField(1);
-        answerField.setBackground(MainWindow.light_title_color);
+        answerField_2.setBackground(MainWindow.title_color);
         frame.add(answerField_2);
 
         options = new JList<>();
-        options.setFont(font);
+        options.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
         frame.add(options);
 
 
@@ -239,8 +240,8 @@ public class TestWindow  {
         task.setLocation((int)(width-1375)/2,93);
         task.setSize(1375,85);
         wordList.setText(extra_task2);
-        wordList.setLocation(500, 550);
-        wordList.setSize(100, 50);
+        wordList.setSize(1375, 50);
+        wordList.setLocation((int)(width-1375)/2, 450);
         int count = questions[currentQuestion].length() - questions[currentQuestion].replace("____ ", "").length();
         count = count / 5;
         String[] parts = questions[currentQuestion].split("____ ");
@@ -275,8 +276,8 @@ public class TestWindow  {
             answerField.setText(answers[currentQuestion][index]);
         }
         else answerField.setText("");
-        question.setLocation(10, 300);
-        question.setSize(800, 40);
+        question.setLocation((int)(width-1375)/2,178);
+        question.setSize(1375, 270);
         answerField.setLocation(815, 300);
         answerField.setSize(100, 40);
         answerField.setEditable(false);
@@ -299,12 +300,14 @@ public class TestWindow  {
         {
             wordListModel.addElement(answers[currentQuestion][i]);
         }
+        wordList.setVisible(true);
         options.setModel(wordListModel);
         options.setDragEnabled(true);
         options.setBackground(Color.white);
-        options.setLocation(500, 600);
-        options.setSize(300, 25 * answers[currentQuestion].length);
-        options.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        options.setLocation((int)(width-1375)/2, 502);
+        options.setSize(1375, 28 * answers[currentQuestion].length);
+        options.setBorder(BorderFactory.createLineBorder(MainWindow.light_main_color, 2));
+        options.setVisible(true);
     }
     private void testQuestion(){
         clear();
@@ -372,12 +375,14 @@ public class TestWindow  {
         question_3.setText("");
         wordList.setText("");
         wordList.setLocation(20,30);
+        wordList.setVisible(false);
         DefaultListModel<String> wordListModel = new DefaultListModel<>();
         wordListModel.addElement("");
         options.setModel(wordListModel);
         options.setBorder(BorderFactory.createLineBorder(MainWindow.main_color, 2));
         options.setBackground(MainWindow.main_color);
         options.setLocation(30, 30);
+        options.setVisible(false);
         for (int i = 0; i < 4; i++){
             answersCheckboxes[i].setVisible(false);
             answersCheckboxes[i].setSize(10, 10);
