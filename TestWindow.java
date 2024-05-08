@@ -68,14 +68,14 @@ public class TestWindow  {
         question.setEditable(false);
         question_2 = new JLabel();
         question.setFont(font);
-        question_2.setLocation(920, 300);
-        question_2.setSize(400, 40);
+        question_2.setLocation((int)(width-1375)/2+12,220);
+        question_2.setSize(1375, 40);
         question_2.setFont(font);
         frame.add(question_2);
-        frame.getContentPane().add(question);
+        frame.add(question);
         question_3 = new JLabel();
-        question_3.setLocation(700, 350);
-        question_3.setSize(600, 40);
+        question_3.setLocation((int)(width-1375)/2+12,252);
+        question_3.setSize(1375, 40);
         question_3.setFont(font);
         frame.add(question_3);
 
@@ -87,7 +87,7 @@ public class TestWindow  {
         frame.add(answerField_2);
 
         options = new JList<>();
-        options.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+        options.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
         frame.add(options);
 
 
@@ -133,14 +133,14 @@ public class TestWindow  {
         nextButton = new RoundButton("Вперед",MainWindow.light_title_color);
         prevButton = new RoundButton("Назад",MainWindow.light_title_color);
         nextButton.setSize(312,70);
-        nextButton.setLocation((int)(width-(width-1375)/2-312),(int)height-70);
+        nextButton.setLocation((int)(width-(width-1375)/2-312),(int)height-70+10);
         prevButton.setBackground(MainWindow.light_title_color);
         prevButton.setSize(312,70);
-        prevButton.setLocation((int)(width-1375)/2,(int)height-70);
+        prevButton.setLocation((int)(width-1375)/2,(int)height-70+10);
         resButton = new RoundButton("Завершить тест",MainWindow.light_title_color);
         resButton.setBackground(MainWindow.light_title_color);
         resButton.setSize(312,70);
-        resButton.setLocation((int)(width-(width-1375)/2-312),(int)height-70);
+        resButton.setLocation((int)(width-(width-1375)/2-312),(int)height-70+10);
         resButton.setFont(fontslay);
         nextButton.setFont(fontslay);
         prevButton.setFont(fontslay);
@@ -246,16 +246,17 @@ public class TestWindow  {
         count = count / 5;
         String[] parts = questions[currentQuestion].split("____ ");
         if (count == 2){
-            if (parts.length == 3) question_3.setText(parts[2]);
+            if (parts.length == 3 && parts[2].length()>2){question_3.setText(parts[2]);question_3.setVisible(true);}
             else question_3.setText("");
             if (user_answers[currentQuestion] != "" && user_answers[currentQuestion].length() != 1)
             {
                 int index = user_answers[currentQuestion].charAt(1) - 1 - '0';
                 answerField_2.setText(answers[currentQuestion][index]);
+                answerField_2.setVisible(true);
             }
             else answerField_2.setText("");
-            answerField_2.setLocation(600, 350);
-            answerField_2.setSize(100, 40);
+            answerField_2.setLocation((int)((width-1375)/2+parts[1].length()*13.8),220);
+            answerField_2.setSize(110, 35);
             answerField_2.setEditable(false);
             answerField_2.setVisible(true);
             answerField_2.setDropTarget(new DropTarget(answerField_2, DnDConstants.ACTION_COPY, new DropTargetAdapter() {
@@ -274,12 +275,13 @@ public class TestWindow  {
         if (user_answers[currentQuestion] != ""){
             int index = user_answers[currentQuestion].charAt(0) - 1 - '0';
             answerField.setText(answers[currentQuestion][index]);
+            answerField.setVisible(true);
         }
-        else answerField.setText("");
+        else {answerField.setText("");answerField.setVisible(true);}
         question.setLocation((int)(width-1375)/2,178);
         question.setSize(1375, 270);
-        answerField.setLocation(815, 300);
-        answerField.setSize(100, 40);
+        answerField.setLocation((int)(parts[0].length()*13.8+(width-1375)/2), 188);
+        answerField.setSize(110, 35);
         answerField.setEditable(false);
         answerField.setVisible(true);
         answerField.setDropTarget(new DropTarget(answerField, DnDConstants.ACTION_COPY, new DropTargetAdapter() {
@@ -305,9 +307,12 @@ public class TestWindow  {
         options.setDragEnabled(true);
         options.setBackground(Color.white);
         options.setLocation((int)(width-1375)/2, 502);
-        options.setSize(1375, 28 * answers[currentQuestion].length);
+        options.setSize(1375, 23 * answers[currentQuestion].length);
         options.setBorder(BorderFactory.createLineBorder(MainWindow.light_main_color, 2));
         options.setVisible(true);
+        frame.getContentPane().add(answerField);
+        frame.getContentPane().add(answerField_2);
+        frame.getContentPane().add(question);
     }
     private void testQuestion(){
         clear();
