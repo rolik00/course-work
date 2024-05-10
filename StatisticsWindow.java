@@ -32,10 +32,10 @@ public class StatisticsWindow {
         frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 
         insert_image("images//circle_image//basis.png", 30, 80);
-        insert_image("images//circle_image//sorts.png", 270, 470);
-        insert_image("images//circle_image//data_structure.png", 515, 80);
-        insert_image("images//circle_image//graphs.png", 760, 470);
-        insert_image("images//circle_image//algorithms.png", 1005, 80);
+        insert_image("images//circle_image//graphs.png", 270, 470);
+        insert_image("images//circle_image//sorts.png", 515, 80);
+        insert_image("images//circle_image//algorithms.png", 760, 470);
+        insert_image("images//circle_image//data_structure.png", 1005, 80);
         insert_image("images//circle_image//test.png", 1250, 470);
         insert_labels();
 
