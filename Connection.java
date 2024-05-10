@@ -39,7 +39,17 @@ public class Connection {
                 TestWindow.answers[i] = tranform(answers);
             }
             ArrayList<String> right_answers = get_right_answers(number);
-            TestWindow.right_answers[i] = tranform(right_answers);
+            if (TestWindow.Type[i] == 1 || TestWindow.Type[i] == 2 || TestWindow.Type[i] == 4)
+            {
+                String s = "";
+                for (int j = 0; j < right_answers.size(); j++) {
+                    s += right_answers.get(j);
+                }
+                String[] arr = new String[1];
+                arr[0] = s;
+                TestWindow.right_answers[i] = arr;
+            }
+            else TestWindow.right_answers[i] = tranform(right_answers);
             i++;
         }
     }
