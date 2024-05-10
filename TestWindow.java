@@ -433,25 +433,26 @@ public class TestWindow  {
     }
     private String get_result(MainWindow.Topic topic){
         score = 0;
-        String result = "", total = "";
+        String result = "";
         for(int i = 0; i < countQuestions; i++){
+            int flag = 0;
             for (int j = 0; j < right_answers[i].length; j++) {
                 if (right_answers[i][j].equals(user_answers[i])) {
                     score++;
-                    if (i < 9) result += "        "+ ((i + 1) + "  : верно\n");
-                    else result += "        "+((i + 1) + " : верно\n");
-                }
-                else{
-                    if (i < 9) result += "        "+((i + 1) + "  : неверно\n");
-                    else result += "        "+((i + 1) + " : неверно\n");
+                    if (i < 9) result += "        " + ((i + 1) + "   : верно\n");
+                    else result += "        " + ((i + 1) + " : верно\n");
+                    flag = 1;
                     break;
                 }
+            }
+            if (flag == 0)
+            {
+                if (i < 9) result += "        "+((i + 1) + "   : неверно\n");
+                else result += "        "+((i + 1) + " : неверно\n");
             }
         }
         Connection con = new Connection();
         con.set_statistics(topic.ordinal(), score * 10);
-        total = "Ваш результат: " + score + " из 10.\n";
-        total += result;
         return result;
     }
     public class RoundBorder implements Border {
