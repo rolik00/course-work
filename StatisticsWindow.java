@@ -86,18 +86,14 @@ public class StatisticsWindow {
         int y;
         for(int i = 0; i < 7; i++)
         {
-            JLabel name = new JLabel(CategoryNames[i]);
-            name.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
-            name.setForeground(MainWindow.title_color);
             JLabel score = new JLabel(Integer.toString(CategoryScores[i]) + "%");
             if (CategoryScores[i] == -1) score.setText("");
             score.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 22));
             score.setForeground(MainWindow.title_color);
-            if (i % 2 == 0) y = 80;
+            if (i < 3) y = 80;
             else y = 470;
-            name.setBounds(35 + i * 245, y - 45, 300, 35);
-            score.setBounds(125 + i * 245, y + 240+20, 220, 35);
-            //frame.add(name);
+            if (i < 3) score.setBounds(125 + (i % 3) * 490, y + 240+20, 220, 35);
+            else score.setBounds(370 + (i % 3) * 490, y + 240+20, 220, 35);
             frame.add(score);
         }
     }
